@@ -14,3 +14,7 @@
 ## about
 
 This repository is information and memo for our cloud infrastructure.
+
+## Operation Procedure Manual
+
+[Operation Procedure Manual Index](./docs/operation_manual/index.md)
