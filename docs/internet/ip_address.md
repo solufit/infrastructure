@@ -8,6 +8,9 @@ Host Name | IP
  x510-core-switch | 172.16.0.65
  aironet1 | 172.16.0.66
  dl360ilo | 172.16.0.67
+ milky-polaris | 172.16.0.68
+ milky-carina | 172.16.0.69
+ milky-orion | 172.16.0.70
 
 ## vLan 2
 
