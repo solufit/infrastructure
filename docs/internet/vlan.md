@@ -14,4 +14,7 @@ ID | Range | Description | ACL
 ------
 
 --------|--------- | --------- | ---------------
- 20 | 172.16.0.128/26 | Ceph | Only Same subnet can access.
+ 20 | 172.16.0.128/26 | Ceph | Infrastructure and VMS can access.
+ 21 | 172.16.0.192/26 | Ubuntu Manage | Infrastructure can access.
+ 22 | 172.16.1.64/26 | Ceph Cluster | isolation, same subnet only.
+
