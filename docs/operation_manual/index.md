@@ -1,13 +1,11 @@
+
 # Operation Procedure Manual Index
 
-## Index
-
-
 <!-- @import "[TOC]" {cmd="toc" depthFrom=2 depthTo=6 orderedList=false} -->
-
 <!-- code_chunk_output -->
 
-- [Index](#index)
+- [Operation Procedure Manual Index](#operation-procedure-manual-index)
+  - [20240518](#20240518)
 
 <!-- /code_chunk_output -->
 
