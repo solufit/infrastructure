@@ -11,6 +11,7 @@ Host Name | IP
  milky-polaris | 172.16.0.68
  milky-carina | 172.16.0.69
  milky-orion | 172.16.0.70
+ nec-bmc | 172.16.0.71
 
 ## vLan 2
 
