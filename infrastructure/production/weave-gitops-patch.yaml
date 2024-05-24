@@ -5,5 +5,9 @@ metadata:
   namespace: flux-system
 spec:
   values:
-    service:
-      type: LoadBalancer
+    ingress:
+      enabled: true
+      hosts:
+        - host: flux.solufit.net
+          paths:
+            - /
