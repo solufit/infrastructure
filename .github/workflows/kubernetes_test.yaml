@@ -40,8 +40,6 @@ jobs:
           run: flux install
         - name: Setup cluster reconciliation
           run: |
-            echo GITHUB_REF
-            echo $GITHUB_REF
             flux create source git flux-system \
             --url=${{ github.event.repository.html_url }} \
             --branch=$GITHUB_HEAD_REF \
