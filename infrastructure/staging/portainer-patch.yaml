@@ -5,7 +5,7 @@ metadata:
   namespace: portainer
 
 spec:
-  $patch: add
   values:
+    $patch: add
     persistance:
       storageClass: standard
