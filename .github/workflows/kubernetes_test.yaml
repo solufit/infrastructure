@@ -22,7 +22,7 @@ jobs:
         - name: Validate manifests
           run: ./scripts/validate.sh
     end_to_end_test:
-        if: success() && (contains(github.ref, 'pull') || github.event_name == 'workflow_dispatch')
+        if: success() 
         needs: check_manifests
         runs-on: ubuntu-latest
         steps:
