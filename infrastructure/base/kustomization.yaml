@@ -7,4 +7,5 @@ resources:
   - "./loki-stack.yaml"
   - "./cloudflared.yaml"
   - "./weave-gitops.yaml"
+  - "./portainer.yaml"
 

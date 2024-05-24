@@ -5,3 +5,4 @@ resources:
 
 patchesStrategicMerge:
   - cloudflared-patch.yaml
+  - portainer-patch.yaml

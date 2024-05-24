@@ -34,8 +34,3 @@ spec:
   interval: 10m
   releaseName: portainer
   targetNamespace: portainer
-  values:
-    persistence:
-      storageClass: nfs-storage
-    service:
-      type: LoadBalancer
