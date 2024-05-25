@@ -7,7 +7,8 @@ spec:
   values:
     ingress:
       enabled: true
+      className: "one-traefik"
       hosts:
-        - host: flux.solufit.net
+        - host: sks.solufit.net
           paths:
-            - /
+            - /flux/

@@ -8,4 +8,13 @@ spec:
   values:
     $patch: add
     persistance:
-      storageClass: ceph
+      storageClass: longhorn
+    
+    ingress:
+      enabled: true
+      hosts:
+        - host: sks.solufit.net
+          paths:
+            - /portainer/
+      annotations:
+        kubernetes.io/ingress.class: one-traefik
