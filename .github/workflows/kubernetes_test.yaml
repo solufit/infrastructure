@@ -1,0 +1,66 @@
+name: kubernetes-test
+
+on:
+    workflow_dispatch:
+    pull_request:
+    push:
+        branches: ['*']
+        tags-ignore: ['*']
+
+jobs:
+    check_manifests:
+        runs-on: ubuntu-latest
+        steps:
+        - name: Checkout
+          uses: actions/checkout@v3
+        - name: Setup yq
+          uses: fluxcd/pkg/actions/yq@main
+        - name: Setup kubeconform
+          uses: fluxcd/pkg/actions/kubeconform@main
+        - name: Setup kustomize
+          uses: fluxcd/pkg/actions/kustomize@main
+        - name: Validate manifests
+          run: ./scripts/validate.sh
+    end_to_end_test:
+        if: success() 
+        needs: check_manifests
+        runs-on: ubuntu-latest
+        steps:
+        - name: show current status
+          run: echo github_ref = $GITHUB_REF || echo github.event_name = ${{ github.event_name }}
+        - name: Checkout
+          uses: actions/checkout@v3
+        - name: Setup Flux
+          uses: fluxcd/flux2/action@main
+        - name: Setup Kubernetes
+          uses: helm/kind-action@v1.7.0
+          with:
+            cluster_name: flux
+        - name: Install Flux in Kubernetes Kind
+          run: flux install
+        - name: Setup cluster reconciliation
+          run: |
+            flux create source git flux-system \
+            --url=${{ github.event.repository.html_url }} \
+            --branch=${GITHUB_REF#refs/heads/} \
+            --ignore-paths="clusters/**/flux-system/" \
+            --username=${{secrets.USER}} \
+            --password=${{secrets.TOKEN}}
+            flux create kustomization flux-system \
+            --source=flux-system \
+            --path=./clusters/staging
+        - name: Verify cluster reconciliation
+          run: |
+            kubectl -n flux-system wait kustomization/infra-controllers --for=condition=ready --timeout=5m
+            kubectl -n flux-system wait kustomization/apps --for=condition=ready --timeout=5m
+        - name: Verify helm reconciliation
+          run: |
+            kubectl -n podinfo wait helmrelease/podinfo --for=condition=ready --timeout=5m
+        - name: Debug failure
+          if: failure()
+          run: |
+            kubectl -n flux-system get all
+            kubectl -n flux-system logs deploy/source-controller
+            kubectl -n flux-system logs deploy/kustomize-controller
+            kubectl -n flux-system logs deploy/helm-controller
+            flux get all --all-namespaces
