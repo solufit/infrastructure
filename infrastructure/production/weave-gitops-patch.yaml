@@ -8,6 +8,8 @@ spec:
     ingress:
       enabled: true
       hosts:
-        - host: flux.solufit.net
+        - host: sks.solufit.net
           paths:
-            - /
+            - /flux/
+      annotations:
+        kubernetes.io/ingress.class: one-traefik
