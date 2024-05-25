@@ -5,6 +5,6 @@ resources:
 - ../base
 
 
-patchesStrategicMerge:
-  - weave-gitops-patch.yaml
-  - portainer-patch.yaml
+patches:
+- path: weave-gitops-patch.yaml
+- path: portainer-patch.yaml
