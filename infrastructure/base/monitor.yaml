@@ -27,3 +27,34 @@ spec:
   values:
     server.persistentVolume.enabled: false
 
+
+---
+
+apiVersion: helm.toolkit.fluxcd.io/v2beta1
+kind: HelmRelease
+metadata:
+  name: grafana
+  namespace: monitor
+spec:
+  chart:
+    spec:
+      chart: grafana
+      version: "7.3.x"
+      sourceRef:
+        kind: HelmRepository
+        name: grafana
+        namespace: flux-system
+  interval: 10m
+  releaseName: grafana
+  targetNamespace: monitor
+  values:
+    datasources:
+      datasources.yaml:
+        apiVersion: 1
+        datasources:
+          - name: Prometheus
+            type: prometheus
+            access: proxy
+            orgId: 1
+            url: http://prometheus.monitor.svc.cluster.local
+            isDefault: true
