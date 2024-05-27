@@ -34,3 +34,6 @@ spec:
   interval: 10m
   releaseName: portainer
   targetNamespace: portainer
+  values:
+    service:
+      type: ClusterIP
