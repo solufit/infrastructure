@@ -1,13 +1,13 @@
 apiVersion: v1
 kind: Namespace
 metadata:
-  name: metrics
+  name: metrics-collector
 ---
 apiVersion: helm.toolkit.fluxcd.io/v2beta1
 kind: HelmRelease
 metadata:
   name: metrics-server
-  namespace: metrics
+  namespace: metrics-collector
 spec:
   chart:
     spec:
@@ -18,5 +18,5 @@ spec:
         name: bitnami
         namespace: flux-system
   releaseName: metrics-server
-  targetNamespace: metrics
+  targetNamespace: metrics-collector
   interval: 5m
