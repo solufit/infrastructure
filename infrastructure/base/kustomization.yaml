@@ -7,3 +7,4 @@ resources:
 - ./portainer.yaml
 - ./helm-bitnami.yaml
 - ./helm-chart-monitors.yaml
+- ./monitor.yaml
