@@ -19,3 +19,4 @@ spec:
         namespace: flux-system
   releaseName: metrics-server
   targetNamespace: metrics
+  interval: 5m
