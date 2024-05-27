@@ -58,7 +58,8 @@ jobs:
             kubectl -n podinfo wait helmrelease/podinfo --for=condition=ready --timeout=5m
         - name: Get Metrics
           run: |
-            kubectl -n metrics get all
+            kubectl top node
+            kubectl top pod -A
 
         - name: Debug failure
           if: failure()
