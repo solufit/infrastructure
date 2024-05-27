@@ -12,11 +12,10 @@ spec:
   chart:
     spec:
       chart: metrics-server
-      version: "7.2.x"
+      version: "7.x.x"
       sourceRef:
         kind: HelmRepository
         name: bitnami
         namespace: flux-system
-  interval: 10m
   releaseName: metrics-server
   targetNamespace: metrics
