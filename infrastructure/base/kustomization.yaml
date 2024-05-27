@@ -6,3 +6,4 @@ resources:
 - ./weave-gitops.yaml
 - ./portainer.yaml
 - ./helm-bitnami.yaml
+- ./helm-chart-monitors.yaml
