@@ -56,6 +56,10 @@ jobs:
         - name: Verify helm reconciliation
           run: |
             kubectl -n podinfo wait helmrelease/podinfo --for=condition=ready --timeout=5m
+        - name: Get Metrics
+          run: |
+            kubectl -n metrics get all
+
         - name: Debug failure
           if: failure()
           run: |
