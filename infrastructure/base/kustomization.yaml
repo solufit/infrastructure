@@ -7,3 +7,4 @@ resources:
 - ./loki-stack.yaml
 - ./weave-gitops.yaml
 - ./portainer.yaml
+- ./helm-bitnami.yaml
