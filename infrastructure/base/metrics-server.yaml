@@ -3,6 +3,16 @@ kind: Namespace
 metadata:
   name: metrics-collector
 ---
+apiVersion: source.toolkit.fluxcd.io/v1beta1
+kind: HelmRepository
+metadata:
+  name: metrics-server
+  namespace: flux-system
+spec:
+  interval: 10m
+  url: https://kubernetes-sigs.github.io/metrics-server/
+
+---
 apiVersion: helm.toolkit.fluxcd.io/v2beta1
 kind: HelmRelease
 metadata:
@@ -12,10 +22,10 @@ spec:
   chart:
     spec:
       chart: metrics-server
-      version: "7.x.x"
+      version: "3.12.x"
       sourceRef:
         kind: HelmRepository
-        name: bitnami
+        name: metrics-server
         namespace: flux-system
   releaseName: metrics-server
   targetNamespace: metrics-collector
