@@ -9,6 +9,7 @@
 - [about](#about)
 - [Operation Procedure Manual](#operation-procedure-manual)
 - [Internet](#internet)
+- [trobleshooting](#trobleshooting)
 
 <!-- /code_chunk_output -->
 
@@ -25,3 +26,7 @@ This repository is information and memo for our cloud infrastructure.
 
 [vLan](./docs/internet/vlan.md)  
 [IP Address](./docs/internet/ip_address.md)
+
+## trobleshooting
+
+https://qiita.com/mochizuki875/items/c69bb7fb2ef3a73dc1a9
