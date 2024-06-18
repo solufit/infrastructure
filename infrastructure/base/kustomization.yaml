@@ -3,7 +3,8 @@ kind: Kustomization
 resources:
 - ./metrics-server.yaml
 - ./eso.yaml
-- ./kube-prometheus-stack.yaml
-- ./loki-stack.yaml
 - ./weave-gitops.yaml
 - ./portainer.yaml
+- ./helm-bitnami.yaml
+- ./helm-chart-monitors.yaml
+- ./monitor.yaml

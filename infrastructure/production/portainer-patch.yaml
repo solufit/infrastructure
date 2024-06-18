@@ -6,7 +6,6 @@ metadata:
 
 spec:
   values:
-    $patch: add
     persistance:
       storageClass: longhorn
     
