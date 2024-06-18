@@ -19,7 +19,11 @@ This page contains how to use Kubernetes in this project.
 
 ## Install FluxCD and GitRepository
 
-Writing in progress.
+We use FluxCD and GitRepository to manage Kubernetes manifests.
+
+This git repository was generated from [This template](https://github.com/fluxcd/flux2-kustomize-helm-example).
 
 ## Using Secrets
 
+- [Install External Secret Operator](./secrets-install.md)
+- [Using External Secrets](./secrets.md)
