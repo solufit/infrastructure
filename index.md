@@ -11,6 +11,7 @@
 - [trobleshooting](#trobleshooting)
 - [Kubernetes](#kubernetes)
   - [Install ESO Kubernetes](#install-eso-kubernetes)
+- [License](#license)
 
 <!-- /code_chunk_output -->
 
@@ -105,3 +106,8 @@ spec:
   - extract:
       key: the-secret-name
 ```
+
+## License
+
+This page's original contents are licensed under Apache License 2.0.
+Other licenses are written in each page.
