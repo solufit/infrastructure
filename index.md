@@ -8,7 +8,6 @@
 
 - [about](#about)
 - [Operation Procedure Manual](#operation-procedure-manual)
-- [Internet](#internet)
 - [trobleshooting](#trobleshooting)
 - [Kubernetes](#kubernetes)
   - [Install ESO Kubernetes](#install-eso-kubernetes)
@@ -24,10 +23,6 @@ This repository is information and memo for our cloud infrastructure.
 
 [Operation Procedure Manual Index](./docs/operation_manual/index.md)
 
-## Internet
-
-[vLan](./docs/internet/vlan.md)  
-[IP Address](./docs/internet/ip_address.md)
 
 ## trobleshooting
 
