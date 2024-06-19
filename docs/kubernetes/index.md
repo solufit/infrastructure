@@ -42,17 +42,13 @@ echo 'source <(kubectl completion bash)' >>~/.bashrc
 
 ```
 
-
 Flux CLI
-
 
 ```bash
 curl -s https://fluxcd.io/install.sh | sudo bash
 
 # add completion
 echo '. <(flux completion bash)' >>~/.bashrc
-
-
 ```
 
 
