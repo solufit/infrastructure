@@ -11,7 +11,7 @@ spec:
     branch: main
   secretRef:
     name: flux-system
-  url: https://github.com/solufit/infrastructure.git
+  url: ssh://git@github.com/solufit/infrastructure
 ---
 apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
