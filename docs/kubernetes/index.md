@@ -12,6 +12,8 @@ This page contains how to use Kubernetes in this project.
   - [Index](#index)
   - [Install FluxCD and GitRepository](#install-fluxcd-and-gitrepository)
     - [Install Fluxcd and kubectl](#install-fluxcd-and-kubectl)
+    - [BootStrap FluxCD](#bootstrap-fluxcd)
+      - [Bootstrap FluxCD](#bootstrap-fluxcd-1)
   - [Using Secrets](#using-secrets)
 
 <!-- /code_chunk_output -->
@@ -51,8 +53,22 @@ curl -s https://fluxcd.io/install.sh | sudo bash
 echo '. <(flux completion bash)' >>~/.bashrc
 ```
 
+### BootStrap FluxCD
 
+[Prepare](https://fluxcd.io/flux/installation/bootstrap/github/)
 
+#### Bootstrap FluxCD
+
+```bash
+flux bootstrap github \
+  --components-extra=image-reflector-controller,image-automation-controller \
+  --token-auth \
+  --owner=solufit \
+  --repository=infrastructure \
+  --branch=main \
+  --path=clusters/production \
+
+```
 
 ## Using Secrets
 
