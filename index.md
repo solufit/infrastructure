@@ -6,11 +6,13 @@
 
 <!-- code_chunk_output -->
 
-- [about](#about)
-- [Operation Procedure Manual](#operation-procedure-manual)
-- [trobleshooting](#trobleshooting)
-- [Kubernetes](#kubernetes)
-- [License](#license)
+- [Index](#index)
+  - [about](#about)
+  - [Operation Procedure Manual](#operation-procedure-manual)
+  - [Proxmox](#proxmox)
+  - [trobleshooting](#trobleshooting)
+  - [Kubernetes](#kubernetes)
+  - [License](#license)
 
 <!-- /code_chunk_output -->
 
@@ -23,6 +25,9 @@ This repository is information and memo for our cloud infrastructure.
 
 [Operation Procedure Manual Index](./docs/operation_manual/index.md)
 
+## Proxmox
+
+[Proxmox](./docs/proxmox/index.md)
 
 ## trobleshooting
 
