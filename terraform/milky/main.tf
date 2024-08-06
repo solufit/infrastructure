@@ -19,10 +19,10 @@ variable "s3_secret_key" {
 variable "pm_api_url" {
     type = string
 }
-variable "pm_user" {
+variable "pm_api_token_id" {
     type = string
 }
-variable "pm_password" {
+variable "pm_api_token_secret" {
     type = string
 }
 
@@ -36,11 +36,14 @@ terraform {
     backend "s3" {
         # Reference From https://docs.oracle.com/en-us/iaas/Content/API/SDKDocs/terraformUsingObjectStore.htm
         bucket = var.s3_bucket
-        key    = var.s3_key
+        key    = "milky-terraform.tfstate"
         region = var.s3_region
         endpoint = var.s3_endpoint
         access_key = var.s3_access_key
         secret_key = var.s3_secret_key
+
+        # AWS認証をスキップ
+        force_path_style = true
         skip_region_validation = true
         skip_credentials_validation = true
         skip_metadata_api_check = true
@@ -51,7 +54,7 @@ terraform {
 
 provider "proxmox" {
     pm_api_url = var.pm_api_url
-    pm_user = var.pm_user
-    pm_password = var.pm_password
-    pm_tls_insecure = true
+    pm_api_token_id = var.pm_api_token_id
+    pm_api_token_secret = var.pm_api_token_secret
+
 }
