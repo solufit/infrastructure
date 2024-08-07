@@ -33,12 +33,12 @@ terraform {
   }
   backend "s3" {
     # Reference From https://docs.oracle.com/en-us/iaas/Content/API/SDKDocs/terraformUsingObjectStore.htm
-    bucket     = var.s3_bucket
+    bucket     = ""
     key        = "milky-terraform.tfstate"
-    region     = var.s3_region
-    endpoint   = var.s3_endpoint
-    access_key = var.s3_access_key
-    secret_key = var.s3_secret_key
+    region     = ""
+    endpoint   = ""
+    access_key = ""
+    secret_key = ""
 
     # AWS認証をスキップ
     force_path_style            = true
