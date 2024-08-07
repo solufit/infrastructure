@@ -10,13 +10,9 @@ resource "proxmox_vm_qemu" "cloudflare-tunnel" {
   # The destination resource pool for the new VM
   pool = "solufit"
 
-  storage = "local-lvm"
   cores   = 3
   sockets = 1
   memory  = 2000
-  disk_gb = 8
-  nic     = "virtio"
-  bridge  = "evnet1"
 
 
   os_type   = "cloud-init"
