@@ -27,9 +27,16 @@ jobs:
         S3_REGION: ${{ secrets.TF_S3_REGION }}
         S3_ENDPOINT: ${{ secrets.TF_S3_ENDPOINT }}
         AWS_ACCESS_KEY_ID: ${{ secrets.TF_S3_ACCESSKEY }}
-        TF_PM_API_URL: ${{ secrets.TF_PM_API_URL }}
-        TF_PM_API_TOKEN_ID: ${{ secrets.TF_PM_API_TOKEN_ID }}
-        TF_PM_API_TOKEN_SECRET: ${{ secrets.TF_PM_API_TOKEN_SECRET }}
+
+
+        TF_VAR_PM_API_URL: ${{ secrets.TF_PM_API_URL }}
+        TF_VAR_PM_API_TOKEN_ID: ${{ secrets.TF_PM_API_TOKEN_ID }}
+        TF_VAR_PM_API_TOKEN_SECRET: ${{ secrets.TF_PM_API_TOKEN_SECRET }}
+        TF_VAR_S3_BUCKET: ${{ secrets.TF_S3_BUCKET }}
+        TF_VAR_S3_REGION: ${{ secrets.TF_S3_REGION }}
+        TF_VAR_S3_ENDPOINT: ${{ secrets.TF_S3_ENDPOINT }}
+        TF_VAR_S3_ACCESS_KEY: ${{ secrets.TF_S3_ACCESSKEY }}
+        TF_VAR_S3_SECRET_KEY: ${{ secrets.TF_S3_SECRET_KEY }}
 
     steps:
       - name: Checkout
