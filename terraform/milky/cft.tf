@@ -12,7 +12,7 @@ resource "proxmox_vm_qemu" "cloudflare-tunnel" {
 
   cores   = 3
   sockets = 1
-  memory  = 2000
+  memory  = 4096
 
 
   os_type   = "cloud-init"
