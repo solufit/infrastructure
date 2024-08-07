@@ -55,9 +55,9 @@ jobs:
         id: init
         run: >
           terraform init \
-            -backend-config="bucket=${{ env.S3_BUCKET }}" \
-            -backend-config="region=${{ env.S3_REGION }}" \
-            -backend-config="endpoint=${{ env.S3_ENDPOINT }}" \
+            -backend-config="bucket=${{ env.TF_VAR_s3_bucket }}" \
+            -backend-config="region=${{ env.TF_VAR_s3_region }}" \
+            -backend-config="endpoint=${{ env.TF_VAR_s3_endpoint }}" \
             -backend-config="access_key=${{ env.AWS_ACCESS_KEY_ID }}" \
             -backend-config="secret_key=${{ env.AWS_SECRET_ACCESS_KEY }}"
 
