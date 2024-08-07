@@ -19,10 +19,6 @@ resource "proxmox_vm_qemu" "cloudflare-tunnel" {
   ipconfig0 = "ip=10.0.0.50/24,gw=10.0.0.1"
 
 
-  provisioner "remote-exec" {
-    inline = [
-      "ip a"
-    ]
-  }
+
 }
 
