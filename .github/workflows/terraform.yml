@@ -1,0 +1,109 @@
+name: "Terraform Solufit Cloud Milky"
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+
+env:
+  TF_VERSION: 1.9.2
+
+jobs:
+  terraform:
+    name: "Terraform"
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: terraform/milky
+    permissions:
+      id-token: write
+      contents: read
+      pull-requests: write
+
+    env:
+        AWS_SECRET_ACCESS_KEY: ${{ secrets.TF_S3_SECRET_KEY }}
+        S3_BUCKET: ${{ secrets.TF_S3_BUCKET }}
+        S3_REGION: ${{ secrets.TF_S3_REGION }}
+        S3_ENDPOINT: ${{ secrets.TF_S3_ENDPOINT }}
+        AWS_ACCESS_KEY_ID: ${{ secrets.TF_S3_ACCESSKEY }}
+
+
+        TF_VAR_pm_api_url: ${{ secrets.TF_PM_API_URL }}
+        TF_VAR_pm_api_token_id: ${{ secrets.TF_PM_API_TOKEN_ID }}
+        TF_VAR_pm_api_token_secret: ${{ secrets.TF_PM_API_TOKEN_SECRET }}
+        TF_VAR_s3_bucket: ${{ secrets.TF_S3_BUCKET }}
+        TF_VAR_s3_region: ${{ secrets.TF_S3_REGION }}
+        TF_VAR_s3_endpoint: ${{ secrets.TF_S3_ENDPOINT }}
+        TF_VAR_s3_access_key: ${{ secrets.TF_S3_ACCESSKEY }}
+        TF_VAR_s3_secret_key: ${{ secrets.TF_S3_SECRET_KEY }}
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v1
+        with:
+          terraform_version: ${{ env.TF_VERSION }}
+
+      - name: Terraform Format
+        id: fmt
+        run: terraform fmt -check
+
+      - name: Terraform Init
+        id: init
+        run: >
+          terraform init \
+            -backend-config="bucket=${{ env.S3_BUCKET }}" \
+            -backend-config="region=${{ env.S3_REGION }}" \
+            -backend-config="endpoint=${{ env.S3_ENDPOINT }}" \
+            -backend-config="access_key=${{ env.AWS_ACCESS_KEY_ID }}" \
+            -backend-config="secret_key=${{ env.AWS_SECRET_ACCESS_KEY }}"
+
+      - name: Terraform Validate
+        id: validate
+        run: terraform validate -no-color
+
+      - name: Terraform Plan
+        id: plan
+        if: github.event_name == 'pull_request'
+        run: terraform plan -no-color -input=false
+        continue-on-error: true
+
+      - uses: actions/github-script@v6
+        if: github.event_name == 'pull_request'
+        env:
+          PLAN: "terraform\n${{ steps.plan.outputs.stdout }}"
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            const output = `#### Terraform Format and Style 🖌\`${{ steps.fmt.outcome }}\`
+            #### Terraform Initialization ⚙️\`${{ steps.init.outcome }}\`
+            #### Terraform Validation 🤖\`${{ steps.validate.outcome }}\`
+            #### Terraform Plan 📖\`${{ steps.plan.outcome }}\`
+
+            <details><summary>Show Plan</summary>
+
+            \`\`\`\n
+            ${process.env.PLAN}
+            \`\`\`
+
+            </details>
+
+            *Pushed by: @${{ github.actor }}, Action: \`${{ github.event_name }}\`*`;
+
+            github.rest.issues.createComment({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body: output
+            })
+
+      - name: Terraform Plan Status
+        if: steps.plan.outcome == 'failure'
+        run: exit 1
+
+      - name: Terraform Apply
+        if: github.ref == 'refs/heads/main' && github.event_name == 'push'
+        run: terraform apply -auto-approve -input=false
