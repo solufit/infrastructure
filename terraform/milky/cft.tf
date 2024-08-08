@@ -21,25 +21,28 @@ resource "proxmox_vm_qemu" "cloudflare-tunnel" {
 
   os_type  = "cloud-init"
   ssh_user = "ubuntu"
-  ssh_key  = var.ssh_public_key
+  sshkeys  = var.ssh_public_key
 
 
   ipconfig0 = "ip=10.0.0.50/24,gw=10.0.0.1"
 
   network {
-    id     = 0
-    model  = "virtio"
-    bridge = "evnet1"
+    model    = "virtio"
+    bridge   = "evnet1"
+    firewall = false
   }
 
-  disk {
-    id      = 0
-    size    = "20G"
-    type    = "scsi"
-    storage = "local-lvm"
+  disks {
+    scsi {
+      scsi0 {
+        disk {
+          size    = "20G"
+          storage = "local-lvm"
+        }
+      }
+    }
   }
 
-  preprovision    = true
   ssh_forward_ip  = "10.0.0.50"
   ssh_private_key = var.ssh_private_key
 
@@ -60,10 +63,5 @@ resource "proxmox_vm_qemu" "cloudflare-tunnel" {
     ]
 
   }
-
-
-
-
-
 }
 
