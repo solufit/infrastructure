@@ -9,7 +9,7 @@ resource "proxmox_vm_qemu" "cloudflare-tunnel" {
   desc        = "cloudflare"
   target_node = "milky-capella"
 
-  vmid = 201
+  vmid = 202
 
   clone = "ubuntu2204-withdocker"
 
@@ -20,6 +20,7 @@ resource "proxmox_vm_qemu" "cloudflare-tunnel" {
   sockets = 1
   memory  = 4096
 
+  scsihw = "virtio-scsi-pci"
 
   os_type  = "cloud-init"
   ssh_user = "ubuntu"
@@ -34,16 +35,16 @@ resource "proxmox_vm_qemu" "cloudflare-tunnel" {
     firewall = false
   }
 
-  disks {
-    scsi {
-      scsi0 {
-        disk {
-          size    = "20G"
-          storage = "main"
-        }
-      }
-    }
-  }
+  #  disks {
+  #    scsi {
+  #      scsi0 {
+  #        disk {
+  #          size    = "20G"
+  #          storage = "main"
+  #        }
+  #      }
+  #    }
+  #  }
 
   ssh_forward_ip  = "10.0.0.50"
   ssh_private_key = var.ssh_private_key
