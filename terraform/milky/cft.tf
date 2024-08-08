@@ -9,6 +9,8 @@ resource "proxmox_vm_qemu" "cloudflare-tunnel" {
   desc        = "cloudflare"
   target_node = "milky-capella"
 
+  vmid = 201
+
   clone = "ubuntu2204-withdocker"
 
   # The destination resource pool for the new VM
