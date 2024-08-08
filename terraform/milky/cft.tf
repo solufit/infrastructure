@@ -37,7 +37,7 @@ resource "proxmox_vm_qemu" "cloudflare-tunnel" {
       scsi0 {
         disk {
           size    = "20G"
-          storage = "local-lvm"
+          storage = "main"
         }
       }
     }
