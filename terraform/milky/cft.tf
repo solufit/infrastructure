@@ -58,15 +58,13 @@ resource "proxmox_vm_qemu" "cloudflare-tunnel" {
   ssh_forward_ip  = "10.0.0.50"
   ssh_private_key = var.ssh_private_key
 
-  connection {
-    type        = "ssh"
-    user        = self.ssh_user
-    private_key = self.ssh_private_key
-    host        = self.ssh_forward_ip
-
-
-  }
   provisioner "remote-exec" {
+    connection {
+      type        = "ssh"
+      user        = self.ssh_user
+      private_key = self.ssh_private_key
+      host        = self.ssh_forward_ip
+    }
     inline = [
       "echo '#! /bin/sh' > /tmp/cloudflare-provision.sh",
       "echo '${var.cloudflare_provision}' >> /tmp/cloudflare-provision.sh",
