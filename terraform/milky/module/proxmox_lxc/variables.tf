@@ -64,16 +64,7 @@ variable "networks" {
 variable "clone" {
   type        = string
   description = "The ID of the container to clone from"
-  default     = null
+  default     = 8001
 }
 
-# outputs.tf (変更なし)
-output "container_id" {
-  value       = proxmox_lxc.container.id
-  description = "The ID of the created LXC container"
-}
 
-output "container_hostname" {
-  value       = proxmox_lxc.container.hostname
-  description = "The hostname of the created LXC container"
-}
