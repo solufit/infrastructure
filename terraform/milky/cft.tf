@@ -86,8 +86,6 @@ resource "proxmox_vm_qemu" "cloudflare-tunnel-1" {
   desc        = "cloudflare"
   target_node = "milky-polaris"
 
-  
-
   clone = "ubuntu2204-withdocker"
 
   bootdisk = "scsi0"
@@ -163,8 +161,6 @@ resource "proxmox_vm_qemu" "cloudflare-tunnel-2" {
   name        = "cloudflare-tunnel-2"
   desc        = "cloudflare"
   target_node = "milky-carina"
-
-  
 
   clone = "ubuntu2204-withdocker"
 
