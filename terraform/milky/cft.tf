@@ -29,7 +29,7 @@ resource "proxmox_vm_qemu" "cloudflare-tunnel" {
   sshkeys  = var.ssh_public_key
 
 
-  ipconfig0 = "ip=10.0.0.50/24,gw=10.0.0.1"
+  ipconfig0 = "ip=10.0.0.50/24"
   ipconfig1 = "ip=dhcp"
 
   network {
@@ -48,14 +48,14 @@ resource "proxmox_vm_qemu" "cloudflare-tunnel" {
       scsi0 {
         disk {
           size    = "20G"
-          storage = "main"
+          storage = "local-lvm"
         }
       }
     }
     ide {
       ide0 {
         cloudinit {
-          storage = "main"
+          storage = "local-lvm"
         }
       }
     }
