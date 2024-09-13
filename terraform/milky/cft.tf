@@ -86,7 +86,7 @@ resource "proxmox_vm_qemu" "cloudflare-tunnel-1" {
   desc        = "cloudflare"
   target_node = "milky-polaris"
 
-  vmid = 203
+  
 
   clone = "ubuntu2204-withdocker"
 
@@ -164,7 +164,7 @@ resource "proxmox_vm_qemu" "cloudflare-tunnel-2" {
   desc        = "cloudflare"
   target_node = "milky-carina"
 
-  vmid = 203
+  
 
   clone = "ubuntu2204-withdocker"
 
