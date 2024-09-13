@@ -30,6 +30,7 @@ resource "proxmox_vm_qemu" "cloudflare-tunnel" {
 
 
   ipconfig0 = "ip=10.0.0.50/24,gw=10.0.0.1"
+  ipconfig1 = "dhcp"
 
   network {
     model    = "virtio"
