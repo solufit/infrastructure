@@ -36,6 +36,11 @@ resource "proxmox_vm_qemu" "cloudflare-tunnel" {
     bridge   = "evnet1"
     firewall = false
   }
+  network {
+    model    = "virtio"
+    bridge   = "vmbr2"
+    firewall = false
+  }
 
   disks {
     scsi {
