@@ -1,5 +1,4 @@
 name: "Terraform Solufit Cloud Milky"
-
 on:
   push:
     branches:
@@ -11,8 +10,8 @@ env:
 
 jobs:
   terraform:
+    runs-on: self-hosted
     name: "Terraform"
-    runs-on: ubuntu-latest
     defaults:
       run:
         working-directory: terraform/milky
