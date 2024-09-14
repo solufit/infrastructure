@@ -1,4 +1,6 @@
-```md
+# Proxmox VM Example
+
+```tf
 module "proxmox_vm" {
   source = "./modules/proxmox-vm"
 

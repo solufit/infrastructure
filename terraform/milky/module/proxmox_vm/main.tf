@@ -48,8 +48,16 @@ resource "proxmox_vm_qemu" "vm" {
     }
   }
 
+  dynamic "ipconfig" {
+    for_each = var.ipconfig
+    content {
+      key = "ipconfig${ipconfig.key}"
+      value = ipconfig.value
+    }
+    
+  }
+
   boot     = var.boot_order
-  ipconfig0 = var.ipconfig
   sshkeys   = var.ssh_keys
 }
 
@@ -148,11 +156,11 @@ variable "boot_order" {
   default     = "order=virtio0"
 }
 
+
 variable "ipconfig" {
-  type        = string
+  type        = list(string)
   description = "IP configuration for the VM"
 }
-
 variable "ssh_keys" {
   type        = string
   description = "SSH keys for the VM"
