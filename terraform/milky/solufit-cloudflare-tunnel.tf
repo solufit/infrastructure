@@ -47,7 +47,7 @@ resource "proxmox_vm_qemu" "cloudflare-tunnel-solufit-1" {
     scsi {
       scsi0 {
         disk {
-          size    = "20G"
+          size    = "10G"
           storage = "local-lvm"
         }
       }
@@ -122,7 +122,7 @@ resource "proxmox_vm_qemu" "cloudflare-tunnel-solufit-2" {
     scsi {
       scsi0 {
         disk {
-          size    = "20G"
+          size    = "10G"
           storage = "local-lvm"
         }
       }
@@ -198,7 +198,7 @@ resource "proxmox_vm_qemu" "cloudflare-tunnel-solufit-3" {
     scsi {
       scsi0 {
         disk {
-          size    = "20G"
+          size    = "10G"
           storage = "local-lvm"
         }
       }
