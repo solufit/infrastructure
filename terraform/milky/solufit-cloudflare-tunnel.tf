@@ -4,9 +4,9 @@ variable "cloudflare_provision" {
   type = string
 }
 
-resource "proxmox_vm_qemu" "cloudflare-tunnel" {
-  name        = "cloudflare-tunnel"
-  desc        = "cloudflare"
+resource "proxmox_vm_qemu" "cloudflare-tunnel-solufit-1" {
+  name        = "solufit-cloudflare-tunnel-1"
+  desc        = "cloudflare tunnel for Solufit"
   target_node = "milky-capella"
 
   vmid = 203
@@ -81,9 +81,9 @@ resource "proxmox_vm_qemu" "cloudflare-tunnel" {
   }
 }
 
-resource "proxmox_vm_qemu" "cloudflare-tunnel-1" {
-  name        = "cloudflare-tunnel-1"
-  desc        = "cloudflare"
+resource "proxmox_vm_qemu" "cloudflare-tunnel-solufit-2" {
+  name        = "solufit-cloudflare-tunnel-2"
+  desc        = "cloudflare tunnel for Solufit"
   target_node = "milky-polaris"
 
   clone = "ubuntu2204-withdocker"
@@ -157,9 +157,9 @@ resource "proxmox_vm_qemu" "cloudflare-tunnel-1" {
 }
 
 
-resource "proxmox_vm_qemu" "cloudflare-tunnel-2" {
-  name        = "cloudflare-tunnel-2"
-  desc        = "cloudflare"
+resource "proxmox_vm_qemu" "cloudflare-tunnel-solufit-3" {
+  name        = "solufit-cloudflare-tunnel-3"
+  desc        = "cloudflare tunnel for Solufit"
   target_node = "milky-carina"
 
   clone = "ubuntu2204-withdocker"
