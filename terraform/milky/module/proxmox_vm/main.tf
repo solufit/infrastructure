@@ -1,4 +1,11 @@
-
+terraform {
+  required_providers {
+    proxmox = {
+      source  = "Telmate/proxmox"
+      version = "3.0.1-rc3"
+    }
+  }
+}
 resource "proxmox_vm_qemu" "vm" {
   name        = var.vm_name
   desc        = var.vm_description
@@ -20,6 +27,7 @@ resource "proxmox_vm_qemu" "vm" {
       for_each = var.disks
       content {
         virtio {
+          virtio0 {
           disk {
             size         = virtio.value.size
             storage      = virtio.value.storage
@@ -27,6 +35,7 @@ resource "proxmox_vm_qemu" "vm" {
             iothread     = lookup(virtio.value, "iothread", true)
             discard      = lookup(virtio.value, "discard", true)
           }
+        }
         }
       }
     }
@@ -138,7 +147,7 @@ variable "network_adapters" {
   type = list(object({
     model     = string
     bridge    = string
-    vlan_tag  = number
+    vlan_tag = optional(number)
   }))
   description = "List of network adapters"
   default = [
