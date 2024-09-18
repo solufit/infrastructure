@@ -1,156 +1,69 @@
 # システム監視用のKubernetesクラスタ
 
-module "k3s-controller-1" {
-  source = "./module/proxmox_vm"
-  vmid   = 501
 
-  vm_description = "K3s Controller Node"
-
-  vm_name     = "k3s-controll-1"
-  target_node = "milky-polaris"
-
-  resource_pool = "solufit"
-
-  template_name = "ubuntu2204-withdocker"
-
-  cpu_cores         = "4"
-  cpu_sockets       = "1"
-  memory            = "8192"
-  cloudinit_storage = "local-lvm"
-
-  disks = [
-    {
-      size         = 32
-      storage      = "local-lvm"
-      storage_type = "lvm"
-    },
-    {
-      size         = 128
-      storage      = "local-lvm"
-      storage_type = "lvm"
-    },
-  ]
-
-  network_adapters = [
-    {
-      model    = "virtio"
-      bridge   = "vmbr2"
-      firewall = true
-    },
-    {
-      model    = "virtio"
-      bridge   = "k3s"
-      firewall = true
-    }
-  ]
-  boot_order = "order=virtio0;"
-  ssh_keys   = var.ssh_public_key
-  ipconfig = [
-    "ip=dhcp",
-    "ip=10.100.0.3/24"
-  ]
-
-}
-module "k3s-worker-1" {
-  source = "./module/proxmox_vm"
-  vmid   = 502
-
-  vm_description = "K3s worker Node"
-
-  vm_name     = "k3s-controll-1"
-  target_node = "milky-carina"
-
-  resource_pool = "solufit"
-
-  template_name = "ubuntu2204-withdocker"
-
-  cpu_cores         = "4"
-  cpu_sockets       = "1"
-  memory            = "8192"
-  cloudinit_storage = "local-lvm"
-
-  disks = [
-    {
-      size         = 32
-      storage      = "local-lvm"
-      storage_type = "lvm"
-    },
-    {
-      size         = 128
-      storage      = "local-lvm"
-      storage_type = "lvm"
-    },
-  ]
-
-  network_adapters = [
-    {
-      model    = "virtio"
-      bridge   = "vmbr2"
-      firewall = true
-    },
-    {
-      model    = "virtio"
-      bridge   = "k3s"
-      firewall = true
-    }
-  ]
-  boot_order = "order=virtio0;"
-  ssh_keys   = var.ssh_public_key
-  ipconfig = [
-    "ip=dhcp",
-    "ip=10.100.0.4/24"
-  ]
-
-}
-module "k3s-worker-2" {
-  source = "./module/proxmox_vm"
-  vmid   = 503
-
-  vm_description = "K3s worker Node"
-
-  vm_name     = "k3s-worker-2"
+resource "proxmox_vm_qemu" "k3s-controller-1" {
+  name        = "solufit-k3s-controller-1"
+  desc        = "Management Kubernetes cluster for Solufit"
   target_node = "milky-capella"
 
-  resource_pool = "solufit"
 
-  template_name = "ubuntu2204-withdocker"
+  clone = "ubuntu2204-withdocker"
 
-  cpu_cores         = "4"
-  cpu_sockets       = "1"
-  memory            = "8192"
-  cloudinit_storage = "local-lvm"
+  bootdisk = "virtio0"
 
-  disks = [
-    {
-      size         = 32
-      storage      = "local-lvm"
-      storage_type = "lvm"
-    },
-    {
-      size         = 128
-      storage      = "local-lvm"
-      storage_type = "lvm"
-    },
-  ]
+  # The destination resource pool for the new VM
+  pool = "solufit"
 
-  network_adapters = [
-    {
-      model    = "virtio"
-      bridge   = "vmbr2"
-      firewall = true
-    },
-    {
-      model    = "virtio"
-      bridge   = "k3s"
-      firewall = true
+  cores   = 4
+  sockets = 1
+  memory  = 4096
+
+  scsihw = "virtio-scsi-pci"
+
+  os_type  = "cloud-init"
+  ssh_user = "ubuntu"
+  sshkeys  = var.ssh_public_key
+
+
+  ipconfig0 = "ip=10.100.0.10/24"
+  ipconfig1 = "ip=dhcp"
+
+  network {
+    model    = "virtio"
+    bridge   = "k3s"
+    firewall = false
+  }
+  network {
+    model    = "virtio"
+    bridge   = "vmbr2"
+    firewall = true
+  }
+
+  disks {
+    virtio {
+      virtio0 {
+        disk {
+          size    = "32G"
+          storage = "local-lvm"
+        }
+      }
+      virtio1 {
+        disk {
+          size    = "128G"
+          storage = "main"
+        }
+      }
     }
-  ]
-  boot_order = "order=virtio0;"
-  ssh_keys   = var.ssh_public_key
-  ipconfig = [
-    "ip=dhcp",
-    "ip=10.100.0.5/24"
-  ]
+    ide {
+      ide0 {
+        cloudinit {
+          storage = "local-lvm"
+        }
+      }
+    }
+  }
+
+  ssh_forward_ip  = "10.100.0.10"
+  ssh_private_key = var.ssh_private_key
 
 }
-
