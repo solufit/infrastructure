@@ -168,6 +168,8 @@ resource "proxmox_vm_qemu" "k3s-controller-1" {
   ssh_forward_ip  = "10.100.0.10"
   ssh_private_key = var.ssh_private_key
 
+
+
 }
 
 resource "proxmox_vm_qemu" "k3s-worker-1" {
