@@ -81,7 +81,13 @@ resource "proxmox_vm_qemu" "gateway-1" {
       "ssh-import-id gh:walkmana-25",
       "ssh-import-id gh:sasanqua-dev",
       "curl -fsSL https://tailscale.com/install.sh | sh",
-      ""
+      "sudo adduser --disabled-password --comment \"\" yuuta",
+      "sudo adduser --disabled-password --comment \"\" sasanqua",
+      "sudo usermod -aG sudo yuuta",
+      "sudo usermod -aG sudo sasanqua",
+      "sudo -u yuuta bash -c 'ssh-import-id gh:walkmana-25'",
+      "sudo -u sasanqua bash -c 'ssh-import-id gh:'sasanqua-dev",
+      "sudo apt-get remove docker -y"
     ]
 
   }
@@ -152,10 +158,18 @@ resource "proxmox_vm_qemu" "workstation-1" {
       host        = self.ssh_forward_ip
     }
     inline = [
-      "echo '#! /bin/sh' > /tmp/cloudflare-provision.sh",
-      "echo '${var.cloudflare_provision}' >> /tmp/cloudflare-provision.sh",
-      "chmod +x /tmp/cloudflare-provision.sh",
-      "sudo /tmp/cloudflare-provision.sh"
+      "sudo apt-get update && sudo apt-get install -y ssh-import-id curl build-essential golang-go rustup nodejs fish tmux zsh vim vim-nox git unzip",
+      "curl -fsSL https://tailscale.com/install.sh | sh",
+      "ssh-import-id gh:walkmana-25",
+      "ssh-import-id gh:sasanqua-dev",
+      "sudo adduser --disabled-password --comment \"\" yuuta",
+      "sudo adduser --disabled-password --comment \"\" sasanqua",
+      "sudo usermod -aG sudo yuuta",
+      "sudo usermod -aG sudo sasanqua",
+      "sudo -u yuuta bash -c 'ssh-import-id gh:walkmana-25'",
+      "sudo -u sasanqua bash -c 'ssh-import-id gh:sasanqua-dev'",
+      "sudo usermod -aG docker yuuta",
+      "sudo usermod -aG docker sasanqua",
     ]
 
   }
