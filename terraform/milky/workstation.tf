@@ -1,8 +1,5 @@
 # Cloud Flare Tunnel Settings
 /* Uses Cloud-Init options from Proxmox 5.2 */
-variable "cloudflare_provision" {
-  type = string
-}
 
 resource "proxmox_vm_qemu" "gateway-1" {
   name        = "ssh-gateway-1"
