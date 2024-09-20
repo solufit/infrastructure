@@ -42,6 +42,9 @@ jobs:
 
         TF_VAR_cloudflare_provision: ${{ secrets.CLOUDFLARE_MILKY_VM_PROVISIONER }}
 
+        TF_VAR_ssh_public_key_k3s: ${{ secrets.TF_SSH_PUBLIC_KEY_K3S }}
+        TF_VAR_ssh_private_key_k3s: ${{ secrets.TF_SSH_PRIVATE_KEY_K3S }}
+
     steps:
       - name: Checkout
         uses: actions/checkout@v3
