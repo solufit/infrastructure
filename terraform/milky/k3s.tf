@@ -103,8 +103,8 @@ EOF
 
 }
 
-resource "proxmox_vm_qemu" "k3s-controller-1" {
-  name        = "solufit-k3s-controller-1"
+resource "proxmox_vm_qemu" "k3s-controller-01" {
+  name        = "solufit-k3s-controller-01"
   desc        = "Management Kubernetes cluster for Solufit"
   target_node = "milky-capella"
 
@@ -165,15 +165,20 @@ resource "proxmox_vm_qemu" "k3s-controller-1" {
     }
   }
 
-  ssh_forward_ip  = "10.100.0.10"
-  ssh_private_key = var.ssh_private_key
+  ssh_forward_ip = "10.100.0.10"
+
+  ssh_private_key = <<EOF
+${var.ssh_private_key}
+${var.ssh_private_key_k3s}
+
+EOF
 
 
 
 }
 
-resource "proxmox_vm_qemu" "k3s-worker-1" {
-  name        = "solufit-k3s-worker-1"
+resource "proxmox_vm_qemu" "k3s-worker-01" {
+  name        = "solufit-k3s-worker-01"
   desc        = "Management Kubernetes cluster for Solufit"
   target_node = "milky-polaris"
 
@@ -234,7 +239,12 @@ resource "proxmox_vm_qemu" "k3s-worker-1" {
     }
   }
 
-  ssh_forward_ip  = "10.100.0.20"
-  ssh_private_key = var.ssh_private_key
+  ssh_forward_ip = "10.100.0.20"
+
+  ssh_private_key = <<EOF
+${var.ssh_private_key}
+${var.ssh_private_key_k3s}
+
+EOF
 
 }
