@@ -147,7 +147,6 @@ resource "proxmox_vm_qemu" "k3s-controller-01" {
 
   os_type  = "cloud-init"
   ssh_user = "ubuntu"
-  sshkeys  = var.ssh_public_key
 
 
   ipconfig0 = "ip=10.100.0.10/24"
@@ -190,9 +189,9 @@ resource "proxmox_vm_qemu" "k3s-controller-01" {
 
   ssh_forward_ip = "10.100.0.10"
 
-  ssh_private_key = <<EOF
-${var.ssh_private_key}
-${var.ssh_private_key_k3s}
+  sshkeys = <<EOF
+${var.ssh_public_key}
+${var.ssh_public_key_k3s}
 
 EOF
 
@@ -221,7 +220,6 @@ resource "proxmox_vm_qemu" "k3s-worker-01" {
 
   os_type  = "cloud-init"
   ssh_user = "ubuntu"
-  sshkeys  = var.ssh_public_key
 
 
   ipconfig0 = "ip=10.100.0.20/24"
@@ -264,9 +262,9 @@ resource "proxmox_vm_qemu" "k3s-worker-01" {
 
   ssh_forward_ip = "10.100.0.20"
 
-  ssh_private_key = <<EOF
-${var.ssh_private_key}
-${var.ssh_private_key_k3s}
+  sshkeys = <<EOF
+${var.ssh_public_key}
+${var.ssh_public_key_k3s}
 
 EOF
 
