@@ -6,6 +6,58 @@ variable "ssh_private_key_k3s" {
   description = "The private key to use for SSH access"
 }
 
+# ansible-host custom cloud config
+resource "local_file" "k3s_ansible_host_cloud_config" {
+  content = <<EOF
+#cloud-config
+package_update: true
+package_upgrade: true
+packages:
+  - python3
+  - python3-pip
+  - python3-venv
+  - ansible-core
+  - ansible-lint
+  - ansible-mitogen
+  - git
+
+users:
+  - name: ubuntu
+    sudo: ALL=(ALL) NOPASSWD:ALL
+    groups: sudo
+    shell: /bin/bash
+    ssh_authorized_keys:
+      - ${var.ssh_public_key_k3s}
+      - ${var.ssh_public_key}
+    ssh_import_id:
+      - gh:walkmana-25
+      - gh:sasanqua-dev
+
+
+write_files:
+  - content: |
+      ${var.ssh_private_key_k3s}
+    path: /home/ubuntu/.ssh/id_rsa
+    permissions: '0600'
+    owner: ubuntu:ubuntu
+  EOF
+
+  filename = "${path.module}/files/ansible-host-cloud-config.yaml"
+}
+
+resource "null_resource" "k3s_ansible_host_cloud_config_provisioner" {
+  connection {
+    type     = "ssh"
+    host     = var.pve_ssh_node
+    user     = var.pve_ssh_user
+    password = var.pve_ssh_password
+  }
+  provisioner "file" {
+    source      = local_file.k3s_ansible_host_cloud_config.filename
+    destination = "${var.snnipet_root}ansible-host-cloud-config.yaml"
+  }
+}
+
 resource "proxmox_vm_qemu" "k3s-ansible-host" {
   name        = "k3s-ansible-host"
   desc        = "Management Kubernetes cluster for Solufit"
@@ -65,40 +117,8 @@ resource "proxmox_vm_qemu" "k3s-ansible-host" {
   ssh_forward_ip  = "10.100.0.5"
   ssh_private_key = var.ssh_private_key
 
-  cicustom = <<EOF
-#cloud-config
-package_update: true
-package_upgrade: true
-packages:
-  - python3
-  - python3-pip
-  - python3-venv
-  - ansible-core
-  - ansible-lint
-  - ansible-mitogen
-  - git
+  cicustom = "user=cephfs:snippets/ansible-host-cloud-config.yaml"
 
-users:
-  - name: ubuntu
-    sudo: ALL=(ALL) NOPASSWD:ALL
-    groups: sudo
-    shell: /bin/bash
-    ssh_authorized_keys:
-      - ${var.ssh_public_key_k3s}
-      - ${var.ssh_public_key}
-    ssh_import_id:
-      - gh:walkmana-25
-      - gh:sasanqua-dev
-
-
-write_files:
-  - content: |
-      ${var.ssh_private_key_k3s}
-    path: /home/ubuntu/.ssh/id_rsa
-    permissions: '0600'
-    owner: ubuntu:ubuntu
-
-EOF
 
 
 }

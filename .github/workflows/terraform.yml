@@ -45,6 +45,10 @@ jobs:
         TF_VAR_ssh_public_key_k3s: ${{ secrets.TF_SSH_PUBLIC_KEY_K3S }}
         TF_VAR_ssh_private_key_k3s: ${{ secrets.TF_SSH_PRIVATE_KEY_K3S }}
 
+        TF_VAR_pve_ssh_node: ${{ secrets.TF_PVE_SSH_NODE }}
+        TF_VAR_pve_ssh_user: ${{ secrets.TF_PVE_SSH_USER }}
+        TF_VAR_pve_ssh_password: ${{ secrets.TF_PVE_SSH_PASSWORD }}
+
     steps:
       - name: Checkout
         uses: actions/checkout@v3
@@ -90,13 +94,6 @@ jobs:
             #### Terraform Validation 🤖\`${{ steps.validate.outcome }}\`
             #### Terraform Plan 📖\`${{ steps.plan.outcome }}\`
 
-            <details><summary>Show Plan</summary>
-
-            \`\`\`\n
-            ${process.env.PLAN}
-            \`\`\`
-
-            </details>
 
             *Pushed by: @${{ github.actor }}, Action: \`${{ github.event_name }}\`*`;
 
