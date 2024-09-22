@@ -47,10 +47,10 @@ write_files:
 
 resource "null_resource" "k3s_ansible_host_cloud_config_provisioner" {
   connection {
-    type       = "ssh"
-    host        = "${var.pve_ssh_node}"
-    user       = "${var.pve_ssh_user}"
-    password = "${var.pve_ssh_password}"
+    type     = "ssh"
+    host     = var.pve_ssh_node
+    user     = var.pve_ssh_user
+    password = var.pve_ssh_password
   }
   provisioner "file" {
     source      = local_file.k3s_ansible_host_cloud_config.filename
