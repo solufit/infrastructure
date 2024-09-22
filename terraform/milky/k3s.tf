@@ -70,6 +70,7 @@ resource "proxmox_vm_qemu" "k3s-ansible-host" {
   clone = "ubuntu2204-withdocker"
 
   bootdisk = "virtio0"
+  boot     = "order=virtio0"
 
   # The destination resource pool for the new VM
   pool = "solufit"
@@ -135,6 +136,7 @@ resource "proxmox_vm_qemu" "k3s-controller-01" {
   clone = "ubuntu2204-withdocker"
 
   bootdisk = "virtio0"
+  boot     = "order=virtio0"
 
   # The destination resource pool for the new VM
   pool = "solufit"
@@ -208,6 +210,7 @@ resource "proxmox_vm_qemu" "k3s-worker-01" {
   clone = "ubuntu2204-withdocker"
 
   bootdisk = "virtio0"
+  boot     = "order=virtio0"
 
   # The destination resource pool for the new VM
   pool = "solufit"
