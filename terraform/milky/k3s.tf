@@ -69,8 +69,8 @@ resource "proxmox_vm_qemu" "k3s-ansible-host" {
 
   clone = "ubuntu2204-withdocker"
 
-  bootdisk = "virtio0"
-  boot     = "order=virtio0"
+  bootdisk = "scsi0"
+  boot     = "order=scsi0"
 
   # The destination resource pool for the new VM
   pool = "solufit"
@@ -101,8 +101,8 @@ resource "proxmox_vm_qemu" "k3s-ansible-host" {
   }
 
   disks {
-    virtio {
-      virtio0 {
+    scsi {
+      scsi0 {
         disk {
           size    = "16G"
           storage = "local-lvm"
@@ -135,8 +135,8 @@ resource "proxmox_vm_qemu" "k3s-controller-01" {
 
   clone = "ubuntu2204-withdocker"
 
-  bootdisk = "virtio0"
-  boot     = "order=virtio0"
+  bootdisk = "scsi0"
+  boot     = "order=scsi0"
 
   # The destination resource pool for the new VM
   pool = "solufit"
@@ -169,14 +169,16 @@ resource "proxmox_vm_qemu" "k3s-controller-01" {
     virtio {
       virtio0 {
         disk {
-          size    = "32G"
-          storage = "local-lvm"
-        }
-      }
-      virtio1 {
-        disk {
           size    = "128G"
           storage = "main"
+        }
+      }
+    }
+    scsi {
+      scsi0 {
+        disk {
+          size    = "32G"
+          storage = "local-lvm"
         }
       }
     }
@@ -201,7 +203,7 @@ EOF
 
 }
 
-resource "proxmox_vm_qemu" "k3s-worker-01" {
+resource "proxmox_vm_qemu" "k3s-worker-1" {
   name        = "solufit-k3s-worker-01"
   desc        = "Management Kubernetes cluster for Solufit"
   target_node = "milky-polaris"
@@ -209,8 +211,8 @@ resource "proxmox_vm_qemu" "k3s-worker-01" {
 
   clone = "ubuntu2204-withdocker"
 
-  bootdisk = "virtio0"
-  boot     = "order=virtio0"
+  bootdisk = "scsi0"
+  boot     = "order=scsi0"
 
   # The destination resource pool for the new VM
   pool = "solufit"
@@ -243,14 +245,16 @@ resource "proxmox_vm_qemu" "k3s-worker-01" {
     virtio {
       virtio0 {
         disk {
-          size    = "32G"
-          storage = "local-lvm"
-        }
-      }
-      virtio1 {
-        disk {
           size    = "128G"
           storage = "main"
+        }
+      }
+    }
+    scsi {
+      scsi0 {
+        disk {
+          size    = "32G"
+          storage = "local-lvm"
         }
       }
     }
