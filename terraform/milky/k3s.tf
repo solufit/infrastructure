@@ -58,7 +58,7 @@ resource "null_resource" "k3s_ansible_host_cloud_config_provisioner" {
   }
 }
 
-resource "proxmox_vm_qemu" "k3s-ansible-host" {
+resource "proxmox_vm_qemu" "k3s-manager-ansible-host" {
   depends_on = [
     null_resource.k3s_ansible_host_cloud_config_provisioner
   ]
@@ -127,7 +127,7 @@ resource "proxmox_vm_qemu" "k3s-ansible-host" {
 
 }
 
-resource "proxmox_vm_qemu" "k3s-controller-01" {
+resource "proxmox_vm_qemu" "k3s-manager-controller-01" {
   name        = "solufit-k3s-controller-01"
   desc        = "Management Kubernetes cluster for Solufit"
   target_node = "milky-capella"
@@ -203,7 +203,7 @@ EOF
 
 }
 
-resource "proxmox_vm_qemu" "k3s-worker-1" {
+resource "proxmox_vm_qemu" "k3s-manager-worker-01" {
   name        = "solufit-k3s-worker-01"
   desc        = "Management Kubernetes cluster for Solufit"
   target_node = "milky-polaris"
