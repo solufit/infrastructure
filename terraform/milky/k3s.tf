@@ -61,6 +61,7 @@ resource "null_resource" "k3s_ansible_host_cloud_config_provisioner" {
     user     = var.pve_ssh_user
     password = var.pve_ssh_password
   }
+  depends_on = [local_file.k3s_ansible_host_cloud_config]
   provisioner "file" {
     source      = local_file.k3s_ansible_host_cloud_config.filename
     destination = "${var.snnipet_root}ansible-host-cloud-config.yaml"
