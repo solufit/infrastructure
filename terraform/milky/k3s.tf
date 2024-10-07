@@ -65,6 +65,7 @@ resource "proxmox_vm_qemu" "k3s-manager-ansible-host" {
   name        = "k3s-ansible-host"
   desc        = "Management Kubernetes cluster for Solufit"
   target_node = "milky-capella"
+  vmid        = 1000
 
 
   clone = "ubuntu2204-withdocker"
@@ -131,6 +132,8 @@ resource "proxmox_vm_qemu" "k3s-manager-controller-01" {
   name        = "solufit-k3s-controller-01"
   desc        = "Management Kubernetes cluster for Solufit"
   target_node = "milky-capella"
+
+  vmid = 1001
 
 
   clone = "ubuntu2204-withdocker"
@@ -207,6 +210,7 @@ resource "proxmox_vm_qemu" "k3s-manager-worker-01" {
   name        = "solufit-k3s-worker-01"
   desc        = "Management Kubernetes cluster for Solufit"
   target_node = "milky-polaris"
+  vmid        = 1002
 
 
   clone = "ubuntu2204-withdocker"
