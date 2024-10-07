@@ -1,7 +1,7 @@
 # Cloud Flare Tunnel Settings
 /* Uses Cloud-Init options from Proxmox 5.2 */
 variable "cloudflare_provision" {
-  type = string
+  type      = string
   sensitive = true
 }
 

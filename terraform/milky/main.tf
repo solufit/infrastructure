@@ -1,34 +1,34 @@
 variable "s3_bucket" {
-  type = string
+  type      = string
   sensitive = true
 }
 
 variable "s3_region" {
-  type = string
+  type      = string
   sensitive = true
 }
 variable "s3_endpoint" {
-  type = string
+  type      = string
   sensitive = true
 }
 variable "s3_access_key" {
-  type = string
+  type      = string
   sensitive = true
 }
 variable "s3_secret_key" {
-  type = string
+  type      = string
   sensitive = true
 }
 variable "pm_api_url" {
-  type = string
+  type      = string
   sensitive = true
 }
 variable "pm_api_token_id" {
-  type = string
+  type      = string
   sensitive = true
 }
 variable "pm_api_token_secret" {
-  type = string
+  type      = string
   sensitive = true
 }
 
