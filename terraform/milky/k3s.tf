@@ -74,7 +74,7 @@ resource "null_resource" "k3s_ansible_host_cloud_config_ssh_file_provisioner" {
   }
   lifecycle {
     create_before_destroy = true
-    replace_triggered_by = [ null_resource.always_run ]
+    replace_triggered_by  = [null_resource.always_run]
   }
 }
 
