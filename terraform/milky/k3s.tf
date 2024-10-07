@@ -70,7 +70,7 @@ resource "null_resource" "k3s_ansible_host_cloud_config_ssh_file_provisioner" {
 
 resource "proxmox_vm_qemu" "k3s-manager-ansible-host" {
   depends_on = [
-    null_resource.k3s_ansible_host_cloud_config_provisioner
+    null_resource.k3s_ansible_host_cloud_config_ssh_file_provisioner
   ]
   name        = "k3s-ansible-host"
   desc        = "Management Kubernetes cluster for Solufit"
