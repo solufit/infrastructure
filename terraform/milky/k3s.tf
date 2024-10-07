@@ -54,6 +54,12 @@ write_files:
   filename = "${path.module}/files/ansible-host-cloud-config.yaml"
 }
 
+resource "null_resource" "always_run" {
+  triggers = {
+    always_run = "${timestamp()}"
+  }
+}
+
 resource "null_resource" "k3s_ansible_host_cloud_config_ssh_file_provisioner" {
   connection {
     type     = "ssh"
@@ -65,6 +71,10 @@ resource "null_resource" "k3s_ansible_host_cloud_config_ssh_file_provisioner" {
   provisioner "file" {
     source      = local_file.k3s_ansible_host_cloud_config.filename
     destination = "${var.snnipet_root}ansible-host-cloud-config.yaml"
+  }
+  lifecycle {
+    create_before_destroy = true
+    replace_triggered_by = [ null_resource.always_run ]
   }
 }
 
