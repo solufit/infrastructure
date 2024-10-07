@@ -54,22 +54,33 @@ write_files:
   filename = "${path.module}/files/ansible-host-cloud-config.yaml"
 }
 
-resource "null_resource" "k3s_ansible_host_cloud_config_provisioner" {
+resource "null_resource" "always_run" {
+  triggers = {
+    always_run = "${timestamp()}"
+  }
+}
+
+resource "null_resource" "k3s_ansible_host_cloud_config_ssh_file_provisioner" {
   connection {
     type     = "ssh"
     host     = var.pve_ssh_node
     user     = var.pve_ssh_user
     password = var.pve_ssh_password
   }
+  depends_on = [local_file.k3s_ansible_host_cloud_config]
   provisioner "file" {
     source      = local_file.k3s_ansible_host_cloud_config.filename
     destination = "${var.snnipet_root}ansible-host-cloud-config.yaml"
+  }
+  lifecycle {
+    create_before_destroy = true
+    replace_triggered_by  = [null_resource.always_run]
   }
 }
 
 resource "proxmox_vm_qemu" "k3s-manager-ansible-host" {
   depends_on = [
-    null_resource.k3s_ansible_host_cloud_config_provisioner
+    null_resource.k3s_ansible_host_cloud_config_ssh_file_provisioner
   ]
   name        = "k3s-ansible-host"
   desc        = "Management Kubernetes cluster for Solufit"
