@@ -27,7 +27,7 @@ packages:
   - git
 
 users:
-  - name: ubuntu
+  - name: ansible
     sudo: ALL=(ALL) NOPASSWD:ALL
     groups: sudo
     shell: /bin/bash
@@ -45,7 +45,7 @@ users:
 write_files:
   - encoding: base64
     content: ${local.ssh_private_key_base64_k3s}
-    path: /home/ubuntu/.ssh/id_rsa
+    path: /home/ansible/.ssh/id_rsa
     permissions: '0600'
     owner: ubuntu:ubuntu
 
