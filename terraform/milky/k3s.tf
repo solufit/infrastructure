@@ -26,6 +26,9 @@ users:
     sudo: ALL=(ALL) NOPASSWD:ALL
     groups: sudo
     shell: /bin/bash
+    ssh_pwauth: no
+    passwd: $6$rounds=4096$ih7uYkBNGE/Jfc5E$WIuiTyWL/gtYm1P6BrHnxRho9v62NJKTc3pd/15J/IhlCrra4r1Mpnrzm6dXkkSygTSM0qjQuPzKeCoIJfFbT0
+    lock_passwd: false
     ssh_authorized_keys:
       - ${var.ssh_public_key_k3s}
       - ${var.ssh_public_key}
