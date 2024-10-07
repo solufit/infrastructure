@@ -54,7 +54,7 @@ write_files:
   filename = "${path.module}/files/ansible-host-cloud-config.yaml"
 }
 
-resource "null_resource" "k3s_ansible_host_cloud_config_provisioner" {
+resource "null_resource" "k3s_ansible_host_cloud_config_ssh_file_provisioner" {
   connection {
     type     = "ssh"
     host     = var.pve_ssh_node
