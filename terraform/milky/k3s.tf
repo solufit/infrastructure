@@ -7,6 +7,10 @@ variable "ssh_private_key_k3s" {
   sensitive   = true
 }
 
+locals {
+  ssh_private_key_base64_k3s = sensitive("${base64encode(var.ssh_private_key_k3s)}")
+}
+
 # ansible-host custom cloud config
 resource "local_file" "k3s_ansible_host_cloud_config" {
   content = <<EOF
@@ -39,11 +43,12 @@ users:
 
 
 write_files:
-  - content: |
-      ${var.ssh_private_key_k3s}
+  - encoding: base64
+    content: ${local.ssh_private_key_base64_k3s}
     path: /home/ubuntu/.ssh/id_rsa
     permissions: '0600'
     owner: ubuntu:ubuntu
+
   EOF
 
   filename = "${path.module}/files/ansible-host-cloud-config.yaml"
