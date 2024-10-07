@@ -125,7 +125,7 @@ resource "proxmox_vm_qemu" "k3s-manager-ansible-host" {
   ssh_forward_ip  = "10.100.0.5"
   ssh_private_key = var.ssh_private_key
 
-  cicustom = "user=cephfs:snippets/ansible-host-cloud-config.yaml"
+  cicustom = "vendor=cephfs:snippets/ansible-host-cloud-config.yaml"
 
 
 
