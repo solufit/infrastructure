@@ -2,6 +2,7 @@
 /* Uses Cloud-Init options from Proxmox 5.2 */
 variable "cloudflare_provision" {
   type = string
+  sensitive = true
 }
 
 resource "proxmox_vm_qemu" "cloudflare-tunnel-solufit-1" {

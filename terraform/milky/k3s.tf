@@ -4,6 +4,7 @@ variable "ssh_public_key_k3s" {
 }
 variable "ssh_private_key_k3s" {
   description = "The private key to use for SSH access"
+  sensitive = true
 }
 
 # ansible-host custom cloud config

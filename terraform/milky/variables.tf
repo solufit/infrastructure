@@ -6,18 +6,22 @@ variable "ssh_public_key" {
 
 variable "ssh_private_key" {
   type = string
+  sensitive = true
 
 }
 
 variable "pve_ssh_node" {
   type = string
+  sensitive = true
 }
 variable "pve_ssh_user" {
   type = string
+  sensitive = true
 
 }
 variable "pve_ssh_password" {
   type = string
+  sensitive = true
 
 }
 

@@ -1,27 +1,35 @@
 variable "s3_bucket" {
   type = string
+  sensitive = true
 }
 
 variable "s3_region" {
   type = string
+  sensitive = true
 }
 variable "s3_endpoint" {
   type = string
+  sensitive = true
 }
 variable "s3_access_key" {
   type = string
+  sensitive = true
 }
 variable "s3_secret_key" {
   type = string
+  sensitive = true
 }
 variable "pm_api_url" {
   type = string
+  sensitive = true
 }
 variable "pm_api_token_id" {
   type = string
+  sensitive = true
 }
 variable "pm_api_token_secret" {
   type = string
+  sensitive = true
 }
 
 terraform {
