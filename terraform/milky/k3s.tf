@@ -7,6 +7,15 @@ variable "ssh_private_key_k3s" {
   sensitive   = true
 }
 
+variable "ssh_private_key_base64_k3s" {
+  description = "The private key to use for SSH access"
+  sensitive   = true
+}
+
+locals {
+  ssh_private_key_base64_k3s = base64encode(var.ssh_private_key_k3s)
+}
+
 # ansible-host custom cloud config
 resource "local_file" "k3s_ansible_host_cloud_config" {
   content = <<EOF
