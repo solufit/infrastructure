@@ -36,7 +36,8 @@ users:
     ssh_authorized_keys:
       - ${var.ssh_public_key_k3s}
       - ${var.ssh_public_key}
-    ssh_import_id: 
+      - ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIM8Yeg3EKotsGxezjOgjZd0ESialhsJ4FyqrPhEAtXVX yuuta@workstation-1
+    ssh_import_id:
       - 'gh:walkmana-25'
 
 
@@ -45,7 +46,7 @@ write_files:
     content: ${local.ssh_private_key_base64_k3s}
     path: /home/ansible/.ssh/id_rsa
     permissions: '0600'
-    owner: ubuntu:ubuntu
+    owner: ansible:ansible
 
   EOF
 
