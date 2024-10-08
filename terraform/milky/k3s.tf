@@ -35,7 +35,7 @@ write_files:
     permissions: '0600'
     owner: ubuntu:ubuntu
 
-run_cmd:
+runcmd:
   - [su, ubuntu, -c, 'ssh-import-id gh:walkmana-25']
 
   EOF
