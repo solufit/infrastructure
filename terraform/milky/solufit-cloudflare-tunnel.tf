@@ -163,7 +163,7 @@ resource "proxmox_vm_qemu" "cloudflare-tunnel-solufit-3" {
   name        = "solufit-cloudflare-tunnel-3"
   desc        = "cloudflare tunnel for Solufit"
   target_node = "milky-carina"
-  vmid        = 2004
+  vmid        = 2005
 
   clone = "ubuntu2204-withdocker"
 
