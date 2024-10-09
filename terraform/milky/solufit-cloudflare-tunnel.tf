@@ -37,6 +37,7 @@ resource "proxmox_vm_qemu" "cloudflare-tunnel-solufit-1" {
     model    = "virtio"
     bridge   = "evnet1"
     firewall = false
+    mtu      = 1400
   }
   network {
     model    = "virtio"
@@ -113,6 +114,7 @@ resource "proxmox_vm_qemu" "cloudflare-tunnel-solufit-2" {
     model    = "virtio"
     bridge   = "evnet1"
     firewall = false
+    mtu      = 1400
   }
   network {
     model    = "virtio"
@@ -190,6 +192,7 @@ resource "proxmox_vm_qemu" "cloudflare-tunnel-solufit-3" {
     model    = "virtio"
     bridge   = "evnet1"
     firewall = false
+    mtu      = 1400
   }
   network {
     model    = "virtio"
