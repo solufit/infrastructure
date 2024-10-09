@@ -33,6 +33,7 @@ resource "proxmox_vm_qemu" "gateway-1" {
     model    = "virtio"
     bridge   = "evnet1"
     firewall = false
+    mtu      = 1400
   }
   network {
     model    = "virtio"
@@ -43,6 +44,7 @@ resource "proxmox_vm_qemu" "gateway-1" {
     model    = "virtio"
     bridge   = "k3s"
     firewall = false
+    mtu      = 1400
   }
 
   disks {
@@ -119,6 +121,7 @@ resource "proxmox_vm_qemu" "workstation-1" {
     model    = "virtio"
     bridge   = "evnet1"
     firewall = false
+    mtu      = 1400
   }
   network {
     model    = "virtio"

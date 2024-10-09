@@ -103,6 +103,8 @@ resource "proxmox_vm_qemu" "k3s-manager-ansible-host" {
     model    = "virtio"
     bridge   = "k3s"
     firewall = false
+    mtu      = 1400
+
   }
   network {
     model    = "virtio"
@@ -170,6 +172,7 @@ resource "proxmox_vm_qemu" "k3s-manager-controller-01" {
     model    = "virtio"
     bridge   = "k3s"
     firewall = false
+    mtu      = 1400
   }
   network {
     model    = "virtio"
@@ -247,6 +250,7 @@ resource "proxmox_vm_qemu" "k3s-manager-worker-01" {
     model    = "virtio"
     bridge   = "k3s"
     firewall = false
+    mtu      = 1400
   }
   network {
     model    = "virtio"
