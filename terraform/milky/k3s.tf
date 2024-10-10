@@ -25,6 +25,7 @@ packages:
   - ansible-lint
   - ansible-mitogen
   - git
+  - curl
 
 
 
