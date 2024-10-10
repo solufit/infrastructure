@@ -40,6 +40,7 @@ runcmd:
   - [su, ubuntu, -c, 'ssh-import-id gh:walkmana-25']
   - [su, ubuntu, -c, 'curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl"']
   - [su, ubuntu, -c, 'curl -s https://fluxcd.io/install.sh | sudo bash']
+  - [su, ubuntu, -c, 'curl https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3 | bash']
 
   EOF
 
