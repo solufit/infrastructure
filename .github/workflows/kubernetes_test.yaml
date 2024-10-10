@@ -24,7 +24,7 @@ jobs:
         runs-on: ubuntu-latest
         steps:
         - name: show current status
-          run: echo github_ref = $GITHUB_REF || echo github.event_name = ${{ github.event_name }}
+          run: echo github_ref = $GITHUB_REF ${{ github.head_ref }} || echo github.event_name = ${{ github.event_name }}
         - name: Checkout
           uses: actions/checkout@v3
         - name: Setup Flux
@@ -39,7 +39,7 @@ jobs:
           run: |
             flux create source git flux-system \
             --url=${{ github.event.repository.html_url }} \
-            --ref-name=${GITHUB_REF} \
+            --branch=${{ github.head_ref }} \
             --ignore-paths="clusters/**/flux-system/" \
             --username=${GITHUB_ACTOR} \
             --password=${{secrets.GITHUB_TOKEN}}
