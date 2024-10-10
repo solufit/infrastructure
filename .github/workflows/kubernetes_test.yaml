@@ -39,7 +39,7 @@ jobs:
           run: |
             flux create source git flux-system \
             --url=${{ github.event.repository.html_url }} \
-            --commit=${GITHUB_SHA} \
+            --branch=${GITHUB_REF} \
             --ignore-paths="clusters/**/flux-system/" \
             --username=${{secrets.USER}} \
             --password=${{secrets.TOKEN}}
