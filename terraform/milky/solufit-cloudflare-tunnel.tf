@@ -271,6 +271,7 @@ resource "proxmox_vm_qemu" "cloudflare-tunnel-solufit-4" {
   ipconfig2 = "ip=172.16.1.66/26"
   ipconfig3 = "ip=172.16.0.134/26"
   ipconfig4 = "ip=172.16.0.198/26"
+  ipconfig5 = "ip=10.0.0.53/24"
 
   network {
     model    = "virtio"
@@ -306,6 +307,12 @@ resource "proxmox_vm_qemu" "cloudflare-tunnel-solufit-4" {
     tag     = 21
   }
 
+  network {
+    model    = "virtio"
+    bridge   = "evnet1"
+    firewall = false
+    mtu      = 1400
+  }
   disks {
     scsi {
       scsi0 {
@@ -324,7 +331,7 @@ resource "proxmox_vm_qemu" "cloudflare-tunnel-solufit-4" {
     }
   }
 
-  ssh_forward_ip  = "10.0.0.52"
+  ssh_forward_ip  = "10.0.0.53"
   ssh_private_key = var.ssh_private_key
 
   provisioner "remote-exec" {
