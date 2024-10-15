@@ -5,6 +5,10 @@ variable "cloudflare_provision" {
   sensitive = true
 }
 
+variable "cloudflare_provision2" {
+  type      = string
+  sensitive = true
+}
 resource "proxmox_vm_qemu" "cloudflare-tunnel-solufit-1" {
   name        = "solufit-cloudflare-tunnel-1"
   desc        = "cloudflare tunnel for Solufit"
@@ -231,6 +235,108 @@ resource "proxmox_vm_qemu" "cloudflare-tunnel-solufit-3" {
     inline = [
       "echo '#! /bin/sh' > /tmp/cloudflare-provision.sh",
       "echo '${var.cloudflare_provision}' >> /tmp/cloudflare-provision.sh",
+      "chmod +x /tmp/cloudflare-provision.sh",
+      "sudo /tmp/cloudflare-provision.sh"
+    ]
+
+  }
+}
+
+resource "proxmox_vm_qemu" "cloudflare-tunnel-solufit-4" {
+  name        = "solufit-cloudflare-tunnel-4"
+  desc        = "cloudflare tunnel for Solufit"
+  target_node = "milky-carina"
+  vmid        = 2006
+
+  clone = "ubuntu2204-withdocker"
+
+  bootdisk = "scsi0"
+
+  # The destination resource pool for the new VM
+  pool = "solufit"
+
+  cores   = 3
+  sockets = 1
+  memory  = 4096
+
+  scsihw = "virtio-scsi-pci"
+
+  os_type  = "cloud-init"
+  ssh_user = "ubuntu"
+  sshkeys  = var.ssh_public_key
+
+
+  ipconfig0 = "ip=172.16.0.69/26"
+  ipconfig1 = "ip=dhcp"
+  ipconfig2 = "ip=172.16.1.66/26"
+  ipconfig3 = "ip=172.16.0.134/26"
+  ipconfig4 = "ip=172.16.0.198/26"
+
+  network {
+    model    = "virtio"
+    bridge   = "vmbr1"
+    firewall = false
+    mtu      = 1400
+    vlan     = 1
+  }
+  network {
+    model    = "virtio"
+    bridge   = "vmbr2"
+    firewall = false
+  }
+  network {
+    model    = "virtio"
+    bridge   = "vmbr1"
+    firewall = false
+    mtu      = 1400
+    vlan     = 4
+  }
+  network {
+    model    = "virtio"
+    bridge   = "vmbr1"
+    firewall = false
+    mtu      = 1400
+    vlan     = 20
+  }
+  network {
+    model    = "virtio"
+    bridge   = "vmbr1"
+    firewall = false
+    mtu      = 1400
+    vlan     = 21
+  }
+
+  disks {
+    scsi {
+      scsi0 {
+        disk {
+          size    = "10G"
+          storage = "local-lvm"
+        }
+      }
+    }
+    ide {
+      ide0 {
+        cloudinit {
+          storage = "local-lvm"
+        }
+      }
+    }
+  }
+
+  ssh_forward_ip  = "10.0.0.52"
+  ssh_private_key = var.ssh_private_key
+
+  provisioner "remote-exec" {
+    connection {
+      type        = "ssh"
+      user        = self.ssh_user
+      private_key = self.ssh_private_key
+      host        = self.ssh_forward_ip
+    }
+    inline = [
+      "echo '#! /bin/sh' > /tmp/cloudflare-provision.sh",
+      "echo '${var.cloudflare_provision2}' >> /tmp/cloudflare-provision.sh",
       "chmod +x /tmp/cloudflare-provision.sh",
       "sudo /tmp/cloudflare-provision.sh"
     ]
