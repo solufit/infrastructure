@@ -5,7 +5,7 @@ variable "cloudflare_provision" {
   sensitive = true
 }
 
-variable "cloudflare_provision2" {
+variable "cloudflare_provision_2" {
   type      = string
   sensitive = true
 }
@@ -336,7 +336,7 @@ resource "proxmox_vm_qemu" "cloudflare-tunnel-solufit-4" {
     }
     inline = [
       "echo '#! /bin/sh' > /tmp/cloudflare-provision.sh",
-      "echo '${var.cloudflare_provision2}' >> /tmp/cloudflare-provision.sh",
+      "echo '${var.cloudflare_provision_2}' >> /tmp/cloudflare-provision.sh",
       "chmod +x /tmp/cloudflare-provision.sh",
       "sudo /tmp/cloudflare-provision.sh"
     ]
