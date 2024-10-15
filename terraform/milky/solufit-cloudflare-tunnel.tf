@@ -277,7 +277,7 @@ resource "proxmox_vm_qemu" "cloudflare-tunnel-solufit-4" {
     bridge   = "vmbr1"
     firewall = false
     mtu      = 1400
-    vlan     = 1
+    tag     = 1
   }
   network {
     model    = "virtio"
@@ -289,21 +289,21 @@ resource "proxmox_vm_qemu" "cloudflare-tunnel-solufit-4" {
     bridge   = "vmbr1"
     firewall = false
     mtu      = 1400
-    vlan     = 4
+    tag     = 4
   }
   network {
     model    = "virtio"
     bridge   = "vmbr1"
     firewall = false
     mtu      = 1400
-    vlan     = 20
+    tag     = 20
   }
   network {
     model    = "virtio"
     bridge   = "vmbr1"
     firewall = false
     mtu      = 1400
-    vlan     = 21
+    tag     = 21
   }
 
   disks {
