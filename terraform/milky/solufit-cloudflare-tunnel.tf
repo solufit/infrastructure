@@ -342,6 +342,7 @@ resource "proxmox_vm_qemu" "cloudflare-tunnel-solufit-4" {
       host        = self.ssh_forward_ip
     }
     inline = [
+      "ssh-import-id gh:walkmana-25",
       "echo '#! /bin/sh' > /tmp/cloudflare-provision.sh",
       "echo '${var.cloudflare_provision_2}' >> /tmp/cloudflare-provision.sh",
       "chmod +x /tmp/cloudflare-provision.sh",
