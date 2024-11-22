@@ -1,6 +1,6 @@
 # Cloud Flare Tunnel Settings
 /* Uses Cloud-Init options from Proxmox 5.2 */
-
+/*
 resource "proxmox_vm_qemu" "gateway-1" {
   name        = "ssh-gateway-1"
   desc        = "ssh-gateway"
@@ -175,3 +175,4 @@ resource "proxmox_vm_qemu" "workstation-1" {
   }
 }
 
+*/
