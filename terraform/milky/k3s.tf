@@ -182,7 +182,7 @@ resource "proxmox_vm_qemu" "k3s-manager-controller-01" {
   network {
     model    = "virtio"
     bridge   = "vmbr2"
-    firewall = true
+    firewall = false
   }
 
   disks {
@@ -260,7 +260,7 @@ resource "proxmox_vm_qemu" "k3s-manager-worker-01" {
   network {
     model    = "virtio"
     bridge   = "vmbr2"
-    firewall = true
+    firewall = false
   }
 
   disks {
