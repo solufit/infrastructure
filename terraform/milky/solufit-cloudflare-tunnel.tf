@@ -13,6 +13,8 @@ resource "proxmox_vm_qemu" "cloudflare-tunnel-solufit-1" {
   name        = "solufit-cloudflare-tunnel-1"
   desc        = "cloudflare tunnel for Solufit"
   target_node = "milky-capella"
+  
+  automatic_reboot = true
 
   vmid = 2003
 
@@ -92,6 +94,8 @@ resource "proxmox_vm_qemu" "cloudflare-tunnel-solufit-2" {
   desc        = "cloudflare tunnel for Solufit"
   target_node = "milky-polaris"
   vmid        = 2004
+  
+  automatic_reboot = true
 
   clone = "ubuntu2204-withdocker"
 
@@ -172,6 +176,8 @@ resource "proxmox_vm_qemu" "cloudflare-tunnel-solufit-3" {
   vmid        = 2005
 
   clone = "ubuntu2204-withdocker"
+  
+  automatic_reboot = true
 
   bootdisk = "scsi0"
 
@@ -249,6 +255,8 @@ resource "proxmox_vm_qemu" "cloudflare-tunnel-solufit-4" {
   vmid        = 2006
 
   clone = "ubuntu2204-withdocker"
+  
+  automatic_reboot = true
 
   bootdisk = "scsi0"
 
