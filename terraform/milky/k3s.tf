@@ -178,6 +178,7 @@ resource "proxmox_vm_qemu" "k3s-manager-controller-01" {
     bridge   = "k3s"
     firewall = false
     mtu      = 1400
+
   }
   network {
     model    = "virtio"
@@ -223,11 +224,172 @@ EOF
 
 }
 
+resource "proxmox_vm_qemu" "k3s-manager-controller-02" {
+  name        = "solufit-k3s-controller-02"
+  desc        = "Management Kubernetes cluster for Solufit"
+  target_node = "milky-capella"
+
+  vmid = 1002
+
+
+  clone = "ubuntu2204-withdocker"
+
+  bootdisk = "scsi0"
+  boot     = "order=scsi0"
+
+  # The destination resource pool for the new VM
+  pool = "solufit"
+
+  cores   = 4
+  sockets = 1
+  memory  = 4096
+
+  scsihw = "virtio-scsi-pci"
+
+  os_type  = "cloud-init"
+  ssh_user = "ubuntu"
+
+
+  ipconfig0 = "ip=10.100.0.11/24"
+  ipconfig1 = "ip=dhcp"
+
+  network {
+    model    = "virtio"
+    bridge   = "k3s"
+    firewall = false
+    mtu      = 1400
+
+  }
+  network {
+    model    = "virtio"
+    bridge   = "vmbr2"
+    firewall = false
+  }
+
+  disks {
+    virtio {
+      virtio0 {
+        disk {
+          size    = "128G"
+          storage = "main"
+        }
+      }
+    }
+    scsi {
+      scsi0 {
+        disk {
+          size    = "32G"
+          storage = "local-lvm"
+        }
+      }
+    }
+    ide {
+      ide0 {
+        cloudinit {
+          storage = "local-lvm"
+        }
+      }
+    }
+  }
+
+  ssh_forward_ip = "10.100.0.11"
+
+  sshkeys = <<EOF
+${var.ssh_public_key}
+${var.ssh_public_key_k3s}
+
+EOF
+
+
+
+}
+resource "proxmox_vm_qemu" "k3s-manager-controller-03" {
+  name        = "solufit-k3s-controller-03"
+  desc        = "Management Kubernetes cluster for Solufit"
+  target_node = "milky-capella"
+
+  vmid = 1003
+
+
+  clone = "ubuntu2204-withdocker"
+
+  bootdisk = "scsi0"
+  boot     = "order=scsi0"
+
+  # The destination resource pool for the new VM
+  pool = "solufit"
+
+  cores   = 4
+  sockets = 1
+  memory  = 4096
+
+  scsihw = "virtio-scsi-pci"
+
+  os_type  = "cloud-init"
+  ssh_user = "ubuntu"
+
+
+  ipconfig0 = "ip=10.100.0.12/24"
+  ipconfig1 = "ip=dhcp"
+
+  network {
+    model    = "virtio"
+    bridge   = "k3s"
+    firewall = false
+    mtu      = 1400
+
+  }
+  network {
+    model    = "virtio"
+    bridge   = "vmbr2"
+    firewall = false
+  }
+
+  disks {
+    virtio {
+      virtio0 {
+        disk {
+          size    = "128G"
+          storage = "main"
+        }
+      }
+    }
+    scsi {
+      scsi0 {
+        disk {
+          size    = "32G"
+          storage = "local-lvm"
+        }
+      }
+    }
+    ide {
+      ide0 {
+        cloudinit {
+          storage = "local-lvm"
+        }
+      }
+    }
+  }
+
+  ssh_forward_ip = "10.100.0.12"
+
+  sshkeys = <<EOF
+${var.ssh_public_key}
+${var.ssh_public_key_k3s}
+
+EOF
+
+
+
+}
+
+
+
 resource "proxmox_vm_qemu" "k3s-manager-worker-01" {
   name        = "solufit-k3s-worker-01"
   desc        = "Management Kubernetes cluster for Solufit"
   target_node = "milky-polaris"
-  vmid        = 1002
+  vmid        = 1100
 
 
   clone = "ubuntu2204-withdocker"
@@ -290,6 +452,156 @@ resource "proxmox_vm_qemu" "k3s-manager-worker-01" {
   }
 
   ssh_forward_ip = "10.100.0.20"
+
+  sshkeys = <<EOF
+${var.ssh_public_key}
+${var.ssh_public_key_k3s}
+
+EOF
+
+}
+resource "proxmox_vm_qemu" "k3s-manager-worker-02" {
+  name        = "solufit-k3s-worker-01"
+  desc        = "Management Kubernetes cluster for Solufit"
+  target_node = "milky-polaris"
+  vmid        = 1101
+
+
+  clone = "ubuntu2204-withdocker"
+
+  bootdisk = "scsi0"
+  boot     = "order=scsi0"
+
+  # The destination resource pool for the new VM
+  pool = "solufit"
+
+  cores   = 2
+  sockets = 1
+  memory  = 2048
+
+  scsihw = "virtio-scsi-pci"
+
+  os_type  = "cloud-init"
+  ssh_user = "ubuntu"
+
+
+  ipconfig0 = "ip=10.100.0.21/24"
+  ipconfig1 = "ip=dhcp"
+
+  network {
+    model    = "virtio"
+    bridge   = "k3s"
+    firewall = false
+    mtu      = 1400
+  }
+  network {
+    model    = "virtio"
+    bridge   = "vmbr2"
+    firewall = false
+  }
+
+  disks {
+    virtio {
+      virtio0 {
+        disk {
+          size    = "128G"
+          storage = "main"
+        }
+      }
+    }
+    scsi {
+      scsi0 {
+        disk {
+          size    = "32G"
+          storage = "data"
+        }
+      }
+    }
+    ide {
+      ide0 {
+        cloudinit {
+          storage = "local-lvm"
+        }
+      }
+    }
+  }
+
+  ssh_forward_ip = "10.100.0.21"
+
+  sshkeys = <<EOF
+${var.ssh_public_key}
+${var.ssh_public_key_k3s}
+
+EOF
+
+}
+resource "proxmox_vm_qemu" "k3s-manager-worker-03" {
+  name        = "solufit-k3s-worker-03"
+  desc        = "Management Kubernetes cluster for Solufit"
+  target_node = "milky-polaris"
+  vmid        = 1102
+
+
+  clone = "ubuntu2204-withdocker"
+
+  bootdisk = "scsi0"
+  boot     = "order=scsi0"
+
+  # The destination resource pool for the new VM
+  pool = "solufit"
+
+  cores   = 2
+  sockets = 1
+  memory  = 2048
+
+  scsihw = "virtio-scsi-pci"
+
+  os_type  = "cloud-init"
+  ssh_user = "ubuntu"
+
+
+  ipconfig0 = "ip=10.100.0.22/24"
+  ipconfig1 = "ip=dhcp"
+
+  network {
+    model    = "virtio"
+    bridge   = "k3s"
+    firewall = false
+    mtu      = 1400
+  }
+  network {
+    model    = "virtio"
+    bridge   = "vmbr2"
+    firewall = false
+  }
+
+  disks {
+    virtio {
+      virtio0 {
+        disk {
+          size    = "128G"
+          storage = "main"
+        }
+      }
+    }
+    scsi {
+      scsi0 {
+        disk {
+          size    = "32G"
+          storage = "data"
+        }
+      }
+    }
+    ide {
+      ide0 {
+        cloudinit {
+          storage = "local-lvm"
+        }
+      }
+    }
+  }
+
+  ssh_forward_ip = "10.100.0.22"
 
   sshkeys = <<EOF
 ${var.ssh_public_key}
