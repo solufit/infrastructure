@@ -144,8 +144,8 @@ resource "proxmox_vm_qemu" "k3s-manager-ansible-host" {
 
 }
 
-resource "proxmox_vm_qemu" "k3s-manager-controller-01" {
-  name        = "solufit-k3s-controller-01"
+resource "proxmox_vm_qemu" "k3s-manager-controller-1" {
+  name        = "solufit-k3s-controller-1"
   desc        = "Management Kubernetes cluster for Solufit"
   target_node = "milky-capella"
 
@@ -224,8 +224,8 @@ EOF
 
 }
 
-resource "proxmox_vm_qemu" "k3s-manager-controller-02" {
-  name        = "solufit-k3s-controller-02"
+resource "proxmox_vm_qemu" "k3s-manager-controller-2" {
+  name        = "solufit-k3s-controller-2"
   desc        = "Management Kubernetes cluster for Solufit"
   target_node = "milky-carina"
 
@@ -303,8 +303,8 @@ EOF
 
 
 }
-resource "proxmox_vm_qemu" "k3s-manager-controller-03" {
-  name        = "solufit-k3s-controller-03"
+resource "proxmox_vm_qemu" "k3s-manager-controller-3" {
+  name        = "solufit-k3s-controller-3"
   desc        = "Management Kubernetes cluster for Solufit"
   target_node = "milky-polaris"
 
@@ -385,8 +385,8 @@ EOF
 
 
 
-resource "proxmox_vm_qemu" "k3s-manager-worker-01" {
-  name        = "solufit-k3s-worker-01"
+resource "proxmox_vm_qemu" "k3s-manager-worker-1" {
+  name        = "solufit-k3s-worker-1"
   desc        = "Management Kubernetes cluster for Solufit"
   target_node = "milky-capella"
   vmid        = 1100
@@ -460,8 +460,8 @@ ${var.ssh_public_key_k3s}
 EOF
 
 }
-resource "proxmox_vm_qemu" "k3s-manager-worker-02" {
-  name        = "solufit-k3s-worker-01"
+resource "proxmox_vm_qemu" "k3s-manager-worker-2" {
+  name        = "solufit-k3s-worker-2"
   desc        = "Management Kubernetes cluster for Solufit"
   target_node = "milky-polaris"
   vmid        = 1101
@@ -535,8 +535,8 @@ ${var.ssh_public_key_k3s}
 EOF
 
 }
-resource "proxmox_vm_qemu" "k3s-manager-worker-03" {
-  name        = "solufit-k3s-worker-03"
+resource "proxmox_vm_qemu" "k3s-manager-worker-3" {
+  name        = "solufit-k3s-worker-3"
   desc        = "Management Kubernetes cluster for Solufit"
   target_node = "milky-carina"
   vmid        = 1102
