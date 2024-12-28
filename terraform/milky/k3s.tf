@@ -227,7 +227,7 @@ EOF
 resource "proxmox_vm_qemu" "k3s-manager-controller-02" {
   name        = "solufit-k3s-controller-02"
   desc        = "Management Kubernetes cluster for Solufit"
-  target_node = "milky-capella"
+  target_node = "milky-carina"
 
   vmid = 1002
 
@@ -306,7 +306,7 @@ EOF
 resource "proxmox_vm_qemu" "k3s-manager-controller-03" {
   name        = "solufit-k3s-controller-03"
   desc        = "Management Kubernetes cluster for Solufit"
-  target_node = "milky-capella"
+  target_node = "milky-polaris"
 
   vmid = 1003
 
@@ -388,7 +388,7 @@ EOF
 resource "proxmox_vm_qemu" "k3s-manager-worker-01" {
   name        = "solufit-k3s-worker-01"
   desc        = "Management Kubernetes cluster for Solufit"
-  target_node = "milky-polaris"
+  target_node = "milky-capella"
   vmid        = 1100
 
 
@@ -538,7 +538,7 @@ EOF
 resource "proxmox_vm_qemu" "k3s-manager-worker-03" {
   name        = "solufit-k3s-worker-03"
   desc        = "Management Kubernetes cluster for Solufit"
-  target_node = "milky-polaris"
+  target_node = "milky-carina"
   vmid        = 1102
 
 
