@@ -279,7 +279,7 @@ resource "proxmox_vm_qemu" "k3s-manager-controller-02" {
       scsi0 {
         disk {
           size    = "32G"
-          storage = "local-lvm"
+          storage = "data"
         }
       }
     }
@@ -358,7 +358,7 @@ resource "proxmox_vm_qemu" "k3s-manager-controller-03" {
       scsi0 {
         disk {
           size    = "32G"
-          storage = "local-lvm"
+          storage = "data"
         }
       }
     }
@@ -438,7 +438,7 @@ resource "proxmox_vm_qemu" "k3s-manager-worker-01" {
       scsi0 {
         disk {
           size    = "32G"
-          storage = "data"
+          storage = "local-lvm"
         }
       }
     }
