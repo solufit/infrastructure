@@ -149,7 +149,7 @@ resource "proxmox_vm_qemu" "k3s-manager-controller-1" {
   desc        = "Management Kubernetes cluster for Solufit"
   target_node = "milky-capella"
 
-  vmid = 1001
+  vmid = 10000
 
 
   clone = "ubuntu2204-withdocker"
@@ -229,7 +229,7 @@ resource "proxmox_vm_qemu" "k3s-manager-controller-2" {
   desc        = "Management Kubernetes cluster for Solufit"
   target_node = "milky-carina"
 
-  vmid = 1002
+  vmid = 10001
 
 
   clone = "ubuntu2204-withdocker"
@@ -308,7 +308,7 @@ resource "proxmox_vm_qemu" "k3s-manager-controller-3" {
   desc        = "Management Kubernetes cluster for Solufit"
   target_node = "milky-polaris"
 
-  vmid = 1003
+  vmid = 10002
 
 
   clone = "ubuntu2204-withdocker"
@@ -389,7 +389,7 @@ resource "proxmox_vm_qemu" "k3s-manager-worker-1" {
   name        = "solufit-k3s-worker-1"
   desc        = "Management Kubernetes cluster for Solufit"
   target_node = "milky-capella"
-  vmid        = 1100
+  vmid        = 11000
 
 
   clone = "ubuntu2204-withdocker"
@@ -464,7 +464,7 @@ resource "proxmox_vm_qemu" "k3s-manager-worker-2" {
   name        = "solufit-k3s-worker-2"
   desc        = "Management Kubernetes cluster for Solufit"
   target_node = "milky-polaris"
-  vmid        = 1101
+  vmid        = 11001
 
 
   clone = "ubuntu2204-withdocker"
@@ -539,7 +539,7 @@ resource "proxmox_vm_qemu" "k3s-manager-worker-3" {
   name        = "solufit-k3s-worker-3"
   desc        = "Management Kubernetes cluster for Solufit"
   target_node = "milky-carina"
-  vmid        = 1102
+  vmid        = 11002
 
 
   clone = "ubuntu2204-withdocker"
