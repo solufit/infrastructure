@@ -28,7 +28,7 @@ resource "proxmox_lxc" "cloudflare-tunnel-solufit-1" {
   # The destination resource pool for the new VM
   pool = "solufit"
 
-  memory = 512
+  memory = 256
   cores  = 1
 
   onboot = true
@@ -66,76 +66,54 @@ resource "proxmox_lxc" "cloudflare-tunnel-solufit-1" {
   }
 }
 
-resource "proxmox_vm_qemu" "cloudflare-tunnel-solufit-2" {
-  name        = "solufit-cloudflare-tunnel-2"
-  desc        = "cloudflare tunnel for Solufit"
-  target_node = "milky-polaris"
-  vmid        = 2004
+resource "proxmox_lxc" "cloudflare-tunnel-solufit-2" {
+  hostname    = "solufit-cloudflare-tunnel-1"
+  description = "cloudflare tunnel for Solufit"
+  target_node = "milky-carina"
 
-  automatic_reboot = true
+  vmid = 2004
 
-  clone = "ubuntu2204-withdocker"
+  clone = 9101
 
-  bootdisk = "scsi0"
+  start = true
+
+  rootfs {
+    storage = "local-lvm"
+    size    = "8G"
+  }
 
   # The destination resource pool for the new VM
   pool = "solufit"
 
-  cores   = 3
-  sockets = 1
-  memory  = 4096
+  memory = 256
+  cores  = 1
 
-  scsihw = "virtio-scsi-pci"
+  onboot = true
 
-  os_type  = "cloud-init"
-  ssh_user = "ubuntu"
-  sshkeys  = var.ssh_public_key
-
-
-  ipconfig0 = "ip=10.0.0.51/24"
-  ipconfig1 = "ip=dhcp"
 
   network {
-    model    = "virtio"
+    name     = "eth0"
     bridge   = "evnet1"
     firewall = false
-    mtu      = 1400
+    ip       = "10.0.0.51/24"
   }
   network {
-    model    = "virtio"
+    name     = "eth1"
     bridge   = "vmbr2"
     firewall = false
+    ip       = "dhcp"
+    mtu      = 1400
   }
-
-  disks {
-    scsi {
-      scsi0 {
-        disk {
-          size    = "10G"
-          storage = "local-lvm"
-        }
-      }
-    }
-    ide {
-      ide0 {
-        cloudinit {
-          storage = "local-lvm"
-        }
-      }
-    }
-  }
-
-  ssh_forward_ip  = "10.0.0.51"
-  ssh_private_key = var.ssh_private_key
 
   provisioner "remote-exec" {
     connection {
       type        = "ssh"
-      user        = self.ssh_user
-      private_key = self.ssh_private_key
-      host        = self.ssh_forward_ip
+      user        = "root"
+      private_key = var.ssh_private_key
+      host        = "10.0.0.51"
     }
     inline = [
+      "apt-get update && apt-get upgrade -y && apt-get install -y curl",
       "echo '#! /bin/sh' > /tmp/cloudflare-provision.sh",
       "echo '${var.cloudflare_provision}' >> /tmp/cloudflare-provision.sh",
       "chmod +x /tmp/cloudflare-provision.sh",
@@ -145,77 +123,54 @@ resource "proxmox_vm_qemu" "cloudflare-tunnel-solufit-2" {
   }
 }
 
+resource "proxmox_lxc" "cloudflare-tunnel-solufit-3" {
+  hostname    = "solufit-cloudflare-tunnel-1"
+  description = "cloudflare tunnel for Solufit"
+  target_node = "milky-polaris"
 
-resource "proxmox_vm_qemu" "cloudflare-tunnel-solufit-3" {
-  name        = "solufit-cloudflare-tunnel-3"
-  desc        = "cloudflare tunnel for Solufit"
-  target_node = "milky-carina"
-  vmid        = 2005
+  vmid = 2005
 
-  clone = "ubuntu2204-withdocker"
+  clone = 9102
 
-  automatic_reboot = true
+  start = true
 
-  bootdisk = "scsi0"
+  rootfs {
+    storage = "local-lvm"
+    size    = "8G"
+  }
 
   # The destination resource pool for the new VM
   pool = "solufit"
 
-  cores   = 3
-  sockets = 1
-  memory  = 4096
+  memory = 256
+  cores  = 1
 
-  scsihw = "virtio-scsi-pci"
+  onboot = true
 
-  os_type  = "cloud-init"
-  ssh_user = "ubuntu"
-  sshkeys  = var.ssh_public_key
-
-
-  ipconfig0 = "ip=10.0.0.52/24"
-  ipconfig1 = "ip=dhcp"
 
   network {
-    model    = "virtio"
+    name     = "eth0"
     bridge   = "evnet1"
     firewall = false
-    mtu      = 1400
+    ip       = "10.0.0.52/24"
   }
   network {
-    model    = "virtio"
+    name     = "eth1"
     bridge   = "vmbr2"
     firewall = false
+    ip       = "dhcp"
+    mtu      = 1400
   }
-
-  disks {
-    scsi {
-      scsi0 {
-        disk {
-          size    = "10G"
-          storage = "local-lvm"
-        }
-      }
-    }
-    ide {
-      ide0 {
-        cloudinit {
-          storage = "local-lvm"
-        }
-      }
-    }
-  }
-
-  ssh_forward_ip  = "10.0.0.52"
-  ssh_private_key = var.ssh_private_key
 
   provisioner "remote-exec" {
     connection {
       type        = "ssh"
-      user        = self.ssh_user
-      private_key = self.ssh_private_key
-      host        = self.ssh_forward_ip
+      user        = "root"
+      private_key = var.ssh_private_key
+      host        = "10.0.0.52"
     }
     inline = [
+      "apt-get update && apt-get upgrade -y && apt-get install -y curl",
       "echo '#! /bin/sh' > /tmp/cloudflare-provision.sh",
       "echo '${var.cloudflare_provision}' >> /tmp/cloudflare-provision.sh",
       "chmod +x /tmp/cloudflare-provision.sh",
