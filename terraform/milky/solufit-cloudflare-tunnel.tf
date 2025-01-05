@@ -10,66 +10,48 @@ variable "cloudflare_provision_2" {
   sensitive = true
 }
 resource "proxmox_lxc" "cloudflare-tunnel-solufit-1" {
-  hostname        = "solufit-cloudflare-tunnel-1"
-  description      = "cloudflare tunnel for Solufit"
+  hostname    = "solufit-cloudflare-tunnel-1"
+  description = "cloudflare tunnel for Solufit"
   target_node = "milky-capella"
-
-  automatic_reboot = true
 
   vmid = 2003
 
   clone = 9100
 
-  bootdisk = "scsi0"
+  rootfs {
+    storage = "local-lvm"
+    size    = "8 G"
+  }
 
   # The destination resource pool for the new VM
   pool = "solufit"
 
-  memory  = 512
-  cores   = 1
-  
+  memory = 512
+  cores  = 1
+
   onboot = true
 
 
-  ssh_user = "ubuntu"
-  ssh_public_keys  = var.ssh_public_key
-
   network {
-    name    = "eth0"
-    bridge  = "evnet1"
-    firewall = false
-    ip = "10.0.0.50/24"
-  }
-  network {
-    name    = "eth1"
-    bridge  = "vmbr2"
-    firewall = false
-    ip = "dhcp"
-    mtu = 1400
-  }
-
-
-  network {
-    model    = "virtio"
+    name     = "eth0"
     bridge   = "evnet1"
     firewall = false
-    mtu      = 1400
+    ip       = "10.0.0.50/24"
   }
   network {
-    model    = "virtio"
+    name     = "eth1"
     bridge   = "vmbr2"
     firewall = false
+    ip       = "dhcp"
+    mtu      = 1400
   }
-
-  ssh_forward_ip  = "10.0.0.50"
-  ssh_private_key = var.ssh_private_key
 
   provisioner "remote-exec" {
     connection {
       type        = "ssh"
-      user        = self.ssh_user
-      private_key = self.ssh_private_key
-      host        = self.ssh_forward_ip
+      user        = "ubuntu"
+      private_key = var.ssh_private_key
+      host        = "10.0.0.50"
     }
     inline = [
       "echo '#! /bin/sh' > /tmp/cloudflare-provision.sh",
