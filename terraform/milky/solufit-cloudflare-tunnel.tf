@@ -9,75 +9,49 @@ variable "cloudflare_provision_2" {
   type      = string
   sensitive = true
 }
-resource "proxmox_vm_qemu" "cloudflare-tunnel-solufit-1" {
-  name        = "solufit-cloudflare-tunnel-1"
-  desc        = "cloudflare tunnel for Solufit"
+resource "proxmox_lxc" "cloudflare-tunnel-solufit-1" {
+  hostname    = "solufit-cloudflare-tunnel-1"
+  description = "cloudflare tunnel for Solufit"
   target_node = "milky-capella"
-
-  automatic_reboot = true
 
   vmid = 2003
 
-  clone = "ubuntu2204-withdocker"
+  clone = 9100
 
-  bootdisk = "scsi0"
+  rootfs {
+    storage = "local-lvm"
+    size    = "8 G"
+  }
 
   # The destination resource pool for the new VM
   pool = "solufit"
 
-  cores   = 3
-  sockets = 1
-  memory  = 4096
+  memory = 512
+  cores  = 1
 
-  scsihw = "virtio-scsi-pci"
+  onboot = true
 
-  os_type  = "cloud-init"
-  ssh_user = "ubuntu"
-  sshkeys  = var.ssh_public_key
-
-
-  ipconfig0 = "ip=10.0.0.50/24"
-  ipconfig1 = "ip=dhcp"
 
   network {
-    model    = "virtio"
+    name     = "eth0"
     bridge   = "evnet1"
     firewall = false
-    mtu      = 1400
+    ip       = "10.0.0.50/24"
   }
   network {
-    model    = "virtio"
+    name     = "eth1"
     bridge   = "vmbr2"
     firewall = false
+    ip       = "dhcp"
+    mtu      = 1400
   }
-
-  disks {
-    scsi {
-      scsi0 {
-        disk {
-          size    = "10G"
-          storage = "local-lvm"
-        }
-      }
-    }
-    ide {
-      ide0 {
-        cloudinit {
-          storage = "local-lvm"
-        }
-      }
-    }
-  }
-
-  ssh_forward_ip  = "10.0.0.50"
-  ssh_private_key = var.ssh_private_key
 
   provisioner "remote-exec" {
     connection {
       type        = "ssh"
-      user        = self.ssh_user
-      private_key = self.ssh_private_key
-      host        = self.ssh_forward_ip
+      user        = "ubuntu"
+      private_key = var.ssh_private_key
+      host        = "10.0.0.50"
     }
     inline = [
       "echo '#! /bin/sh' > /tmp/cloudflare-provision.sh",
