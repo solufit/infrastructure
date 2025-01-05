@@ -186,6 +186,8 @@ resource "proxmox_vm_qemu" "cloudflare-tunnel-solufit-4" {
   target_node = "milky-carina"
   vmid        = 2006
 
+  agent = 1
+
   clone = "ubuntu2204-withdocker"
 
   automatic_reboot = true
