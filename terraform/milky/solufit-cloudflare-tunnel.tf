@@ -9,35 +9,45 @@ variable "cloudflare_provision_2" {
   type      = string
   sensitive = true
 }
-resource "proxmox_vm_qemu" "cloudflare-tunnel-solufit-1" {
-  name        = "solufit-cloudflare-tunnel-1"
-  desc        = "cloudflare tunnel for Solufit"
+resource "proxmox_lxc" "cloudflare-tunnel-solufit-1" {
+  hostname        = "solufit-cloudflare-tunnel-1"
+  description      = "cloudflare tunnel for Solufit"
   target_node = "milky-capella"
 
   automatic_reboot = true
 
   vmid = 2003
 
-  clone = "ubuntu2204-withdocker"
+  clone = 9100
 
   bootdisk = "scsi0"
 
   # The destination resource pool for the new VM
   pool = "solufit"
 
-  cores   = 3
-  sockets = 1
-  memory  = 4096
+  memory  = 512
+  cores   = 1
+  
+  onboot = true
 
-  scsihw = "virtio-scsi-pci"
 
-  os_type  = "cloud-init"
   ssh_user = "ubuntu"
-  sshkeys  = var.ssh_public_key
+  ssh_public_keys  = var.ssh_public_key
 
+  network {
+    name    = "eth0"
+    bridge  = "evnet1"
+    firewall = false
+    ip = "10.0.0.50/24"
+  }
+  network {
+    name    = "eth1"
+    bridge  = "vmbr2"
+    firewall = false
+    ip = "dhcp"
+    mtu = 1400
+  }
 
-  ipconfig0 = "ip=10.0.0.50/24"
-  ipconfig1 = "ip=dhcp"
 
   network {
     model    = "virtio"
@@ -49,24 +59,6 @@ resource "proxmox_vm_qemu" "cloudflare-tunnel-solufit-1" {
     model    = "virtio"
     bridge   = "vmbr2"
     firewall = false
-  }
-
-  disks {
-    scsi {
-      scsi0 {
-        disk {
-          size    = "10G"
-          storage = "local-lvm"
-        }
-      }
-    }
-    ide {
-      ide0 {
-        cloudinit {
-          storage = "local-lvm"
-        }
-      }
-    }
   }
 
   ssh_forward_ip  = "10.0.0.50"
