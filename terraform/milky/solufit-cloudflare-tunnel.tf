@@ -185,7 +185,7 @@ resource "proxmox_lxc" "cloudflare-tunnel-solufit-4" {
   description = "cloudflare tunnel for Solufit"
   target_node = "milky-carina"
 
-  vmid = 2005
+  vmid = 2006
 
   clone = 9101
 
