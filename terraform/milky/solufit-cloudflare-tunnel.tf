@@ -18,9 +18,11 @@ resource "proxmox_lxc" "cloudflare-tunnel-solufit-1" {
 
   clone = 9100
 
+  start = true
+
   rootfs {
     storage = "local-lvm"
-    size    = "8 G"
+    size    = "8G"
   }
 
   # The destination resource pool for the new VM
@@ -49,7 +51,7 @@ resource "proxmox_lxc" "cloudflare-tunnel-solufit-1" {
   provisioner "remote-exec" {
     connection {
       type        = "ssh"
-      user        = "ubuntu"
+      user        = "root"
       private_key = var.ssh_private_key
       host        = "10.0.0.50"
     }
