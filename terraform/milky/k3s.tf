@@ -81,6 +81,8 @@ resource "proxmox_vm_qemu" "k3s-manager-ansible-host" {
   target_node = "milky-capella"
   vmid        = 1000
 
+  agent = 1
+
 
   clone = "ubuntu2204-withdocker"
 
@@ -150,6 +152,9 @@ resource "proxmox_vm_qemu" "k3s-manager-controller-1" {
   target_node = "milky-capella"
 
   vmid = 10000
+
+  agent = 1
+
 
 
   clone = "ubuntu2204-withdocker"
@@ -231,6 +236,8 @@ resource "proxmox_vm_qemu" "k3s-manager-controller-2" {
 
   vmid = 10001
 
+  agent = 1
+
 
   clone = "ubuntu2204-withdocker"
 
@@ -309,6 +316,8 @@ resource "proxmox_vm_qemu" "k3s-manager-controller-3" {
   target_node = "milky-polaris"
 
   vmid = 10002
+
+  agent = 1
 
 
   clone = "ubuntu2204-withdocker"
@@ -391,6 +400,8 @@ resource "proxmox_vm_qemu" "k3s-manager-worker-1" {
   target_node = "milky-capella"
   vmid        = 11000
 
+  agent = 1
+
 
   clone = "ubuntu2204-withdocker"
 
@@ -466,6 +477,8 @@ resource "proxmox_vm_qemu" "k3s-manager-worker-2" {
   target_node = "milky-polaris"
   vmid        = 11001
 
+  agent = 1
+
 
   clone = "ubuntu2204-withdocker"
 
@@ -540,6 +553,8 @@ resource "proxmox_vm_qemu" "k3s-manager-worker-3" {
   desc        = "Management Kubernetes cluster for Solufit"
   target_node = "milky-carina"
   vmid        = 11002
+
+  agent = 1
 
 
   clone = "ubuntu2204-withdocker"
