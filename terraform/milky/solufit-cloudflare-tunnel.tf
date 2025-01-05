@@ -56,6 +56,7 @@ resource "proxmox_lxc" "cloudflare-tunnel-solufit-1" {
       host        = "10.0.0.50"
     }
     inline = [
+      "apt-get update && apt-get upgrade -y && apt-get install -y curl",
       "echo '#! /bin/sh' > /tmp/cloudflare-provision.sh",
       "echo '${var.cloudflare_provision}' >> /tmp/cloudflare-provision.sh",
       "chmod +x /tmp/cloudflare-provision.sh",
