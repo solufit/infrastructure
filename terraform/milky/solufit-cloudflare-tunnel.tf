@@ -180,81 +180,109 @@ resource "proxmox_lxc" "cloudflare-tunnel-solufit-3" {
   }
 }
 
-resource "proxmox_lxc" "cloudflare-tunnel-solufit-4" {
-  hostname    = "solufit-cloudflare-tunnel-4"
-  description = "cloudflare tunnel for Solufit"
+resource "proxmox_vm_qemu" "cloudflare-tunnel-solufit-4" {
+  name        = "solufit-cloudflare-tunnel-4"
+  desc        = "cloudflare tunnel for Solufit"
   target_node = "milky-carina"
+  vmid        = 2006
 
-  vmid = 2006
+  clone = "ubuntu2204-withdocker"
 
-  clone = 9101
+  automatic_reboot = true
 
-  start = true
-
-  rootfs {
-    storage = "local-lvm"
-    size    = "8G"
-  }
+  bootdisk = "scsi0"
 
   # The destination resource pool for the new VM
   pool = "solufit"
 
-  memory = 256
-  cores  = 1
+  cores   = 2
+  sockets = 1
+  memory  = 2048
 
-  onboot = true
+  scsihw = "virtio-scsi-pci"
 
+  os_type  = "cloud-init"
+  ssh_user = "ubuntu"
+  sshkeys  = var.ssh_public_key
+
+
+  ipconfig0 = "ip=10.0.0.53/24"
+  ipconfig1 = "ip=172.16.0.69/26"
+  ipconfig2 = "ip=dhcp"
+  ipconfig3 = "ip=172.16.1.66/26"
+  ipconfig4 = "ip=172.16.0.134/26"
+  ipconfig5 = "ip=172.16.0.198/26"
 
   network {
-    name     = "eth0"
+    model    = "virtio"
     bridge   = "evnet1"
     firewall = false
-    ip       = "10.0.0.53/24"
-  }
-  network {
-    name     = "eth1"
-    bridge   = "vmbr2"
-    firewall = false
-    ip       = "dhcp"
     mtu      = 1400
   }
+  network {
+    model    = "virtio"
+    bridge   = "vmbr1"
+    firewall = false
+    mtu      = 1400
+    tag      = 1
+  }
+  network {
+    model    = "virtio"
+    bridge   = "vmbr2"
+    firewall = false
+  }
+  network {
+    model    = "virtio"
+    bridge   = "vmbr1"
+    firewall = false
+    mtu      = 1400
+    tag      = 4
+  }
+  network {
+    model    = "virtio"
+    bridge   = "vmbr1"
+    firewall = false
+    mtu      = 1400
+    tag      = 20
+  }
+  network {
+    model    = "virtio"
+    bridge   = "vmbr1"
+    firewall = false
+    mtu      = 1400
+    tag      = 21
+  }
 
-  network {
-    name     = "eth2"
-    bridge   = "vmbr1"
-    firewall = false
-    ip       = "172.16.0.69"
+  disks {
+    scsi {
+      scsi0 {
+        disk {
+          size    = "10G"
+          storage = "local-lvm"
+        }
+      }
+    }
+    ide {
+      ide0 {
+        cloudinit {
+          storage = "local-lvm"
+        }
+      }
+    }
   }
-  network {
-    name     = "eth3"
-    bridge   = "vmbr1"
-    firewall = false
-    ip       = "172.16.1.66/26"
-    tag      = "4"
-  }
-  network {
-    name     = "eth4"
-    bridge   = "vmbr1"
-    firewall = false
-    ip       = "172.16.0.134/26"
-    tag      = "20"
-  }
-  network {
-    name     = "eth5"
-    bridge   = "vmbr1"
-    firewall = false
-    ip       = "172.16.0.198/26"
-    tag      = "21"
-  }
+
+  ssh_forward_ip  = "10.0.0.53"
+  ssh_private_key = var.ssh_private_key
+
   provisioner "remote-exec" {
     connection {
       type        = "ssh"
-      user        = "root"
-      private_key = var.ssh_private_key
-      host        = "10.0.0.53"
+      user        = self.ssh_user
+      private_key = self.ssh_private_key
+      host        = self.ssh_forward_ip
     }
     inline = [
-      "apt-get update && apt-get upgrade -y && apt-get install -y curl",
+      "ssh-import-id gh:walkmana-25",
       "echo '#! /bin/sh' > /tmp/cloudflare-provision.sh",
       "echo '${var.cloudflare_provision_2}' >> /tmp/cloudflare-provision.sh",
       "chmod +x /tmp/cloudflare-provision.sh",
