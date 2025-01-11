@@ -128,7 +128,7 @@ resource "proxmox_lxc" "cloudflare-tunnel-solufit-3" {
   description = "cloudflare tunnel for Solufit"
   target_node = "milky-polaris"
 
-  vmid = 2005
+  vmid = 2007
 
   clone = 9102
 
