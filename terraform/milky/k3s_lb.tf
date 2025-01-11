@@ -88,7 +88,7 @@ resource "proxmox_lxc" "k3s-lb-2" {
 resource "proxmox_lxc" "k3s-lb-3" {
   hostname    = "solufit-k3s-lb-3"
   description = "cloudflare tunnel for Solufit"
-  target_node = "milky-capella"
+  target_node = "milky-polaris"
 
   vmid = 12003
 
