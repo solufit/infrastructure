@@ -68,6 +68,7 @@ jobs:
         id: init
         run: >
           terraform init \
+            -upgrade \
             -backend-config="bucket=${{ env.TF_VAR_s3_bucket }}" \
             -backend-config="region=${{ env.TF_VAR_s3_region }}" \
             -backend-config="endpoint=${{ env.TF_VAR_s3_endpoint }}" \
