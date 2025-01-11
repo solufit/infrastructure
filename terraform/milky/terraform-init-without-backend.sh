@@ -1,7 +1,7 @@
 #! /bin/bash
 
 echo Initializing Terraform without backend...
-terraform init -backend=false
+terraform init -backend=false -upgrade
 
 echo Running Terraform Format...
 terraform fmt
