@@ -45,7 +45,7 @@ resource "proxmox_lxc" "k3s-lb-1" {
       host        = "10.100.0.6"
     }
     inline = [
-      "echo ${var.ssh_public_key_k3s} >> /root/.ssh/authorized_keys"
+      "echo '${var.ssh_public_key_k3s}' >> /root/.ssh/authorized_keys"
     ]
 
   }
@@ -99,7 +99,7 @@ resource "proxmox_lxc" "k3s-lb-2" {
       host        = "10.100.0.7"
     }
     inline = [
-      "echo ${var.ssh_public_key_k3s} >> /root/.ssh/authorized_keys"
+      "echo '${var.ssh_public_key_k3s}' >> /root/.ssh/authorized_keys"
     ]
 
   }
@@ -152,7 +152,7 @@ resource "proxmox_lxc" "k3s-lb-3" {
       host        = "10.100.0.8"
     }
     inline = [
-      "echo ${var.ssh_public_key_k3s} >> /root/.ssh/authorized_keys"
+      "echo '${var.ssh_public_key_k3s}' >> /root/.ssh/authorized_keys"
     ]
 
   }
