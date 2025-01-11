@@ -7,7 +7,8 @@ resource "proxmox_lxc" "k3s-lb-1" {
 
   clone = 9100
 
-  start = true
+  start  = true
+  onboot = true
 
   rootfs {
     storage = "local-lvm"
@@ -20,7 +21,6 @@ resource "proxmox_lxc" "k3s-lb-1" {
   memory = 256
   cores  = 1
 
-  onboot          = true
   ssh_public_keys = <<EOF
 ${var.ssh_public_key}
 ${var.ssh_public_key_k3s}
@@ -58,7 +58,8 @@ ${var.ssh_public_key_k3s}
 
   clone = 9101
 
-  start = true
+  start  = true
+  onboot = true
 
   rootfs {
     storage = "local-lvm"
@@ -71,7 +72,6 @@ ${var.ssh_public_key_k3s}
   memory = 256
   cores  = 1
 
-  onboot = true
 
 
   network {
@@ -102,8 +102,7 @@ resource "proxmox_lxc" "k3s-lb-3" {
 
   clone = 9102
 
-  start = true
-
+  start           = true
   ssh_public_keys = <<EOF
 ${var.ssh_public_key}
 ${var.ssh_public_key_k3s}
