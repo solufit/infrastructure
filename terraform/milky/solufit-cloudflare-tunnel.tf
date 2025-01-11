@@ -216,12 +216,14 @@ resource "proxmox_vm_qemu" "cloudflare-tunnel-solufit-4" {
   ipconfig5 = "ip=172.16.0.198/26"
 
   network {
+    id       = 0
     model    = "virtio"
     bridge   = "evnet1"
     firewall = false
     mtu      = 1400
   }
   network {
+    id       = 1
     model    = "virtio"
     bridge   = "vmbr1"
     firewall = false
@@ -229,11 +231,13 @@ resource "proxmox_vm_qemu" "cloudflare-tunnel-solufit-4" {
     tag      = 1
   }
   network {
+    id       = 2
     model    = "virtio"
     bridge   = "vmbr2"
     firewall = false
   }
   network {
+    id       = 3
     model    = "virtio"
     bridge   = "vmbr1"
     firewall = false
@@ -241,6 +245,7 @@ resource "proxmox_vm_qemu" "cloudflare-tunnel-solufit-4" {
     tag      = 4
   }
   network {
+    id       = 4
     model    = "virtio"
     bridge   = "vmbr1"
     firewall = false
@@ -248,6 +253,7 @@ resource "proxmox_vm_qemu" "cloudflare-tunnel-solufit-4" {
     tag      = 20
   }
   network {
+    id       = 5
     model    = "virtio"
     bridge   = "vmbr1"
     firewall = false

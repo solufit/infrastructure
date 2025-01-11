@@ -107,6 +107,7 @@ resource "proxmox_vm_qemu" "k3s-manager-ansible-host" {
   ipconfig1 = "ip=dhcp"
 
   network {
+    id       = 0
     model    = "virtio"
     bridge   = "k3s"
     firewall = false
@@ -114,6 +115,7 @@ resource "proxmox_vm_qemu" "k3s-manager-ansible-host" {
 
   }
   network {
+    id       = 1
     model    = "virtio"
     bridge   = "vmbr2"
     firewall = true
@@ -179,6 +181,7 @@ resource "proxmox_vm_qemu" "k3s-manager-controller-1" {
   ipconfig1 = "ip=dhcp"
 
   network {
+    id       = 0
     model    = "virtio"
     bridge   = "k3s"
     firewall = false
@@ -186,6 +189,7 @@ resource "proxmox_vm_qemu" "k3s-manager-controller-1" {
 
   }
   network {
+    id       = 1
     model    = "virtio"
     bridge   = "vmbr2"
     firewall = false
@@ -261,6 +265,7 @@ resource "proxmox_vm_qemu" "k3s-manager-controller-2" {
   ipconfig1 = "ip=dhcp"
 
   network {
+    id       = 0
     model    = "virtio"
     bridge   = "k3s"
     firewall = false
@@ -268,6 +273,7 @@ resource "proxmox_vm_qemu" "k3s-manager-controller-2" {
 
   }
   network {
+    id       = 1
     model    = "virtio"
     bridge   = "vmbr2"
     firewall = false
@@ -342,6 +348,8 @@ resource "proxmox_vm_qemu" "k3s-manager-controller-3" {
   ipconfig1 = "ip=dhcp"
 
   network {
+
+    id       = 0
     model    = "virtio"
     bridge   = "k3s"
     firewall = false
@@ -349,6 +357,7 @@ resource "proxmox_vm_qemu" "k3s-manager-controller-3" {
 
   }
   network {
+    id       = 1
     model    = "virtio"
     bridge   = "vmbr2"
     firewall = false
@@ -425,12 +434,14 @@ resource "proxmox_vm_qemu" "k3s-manager-worker-1" {
   ipconfig1 = "ip=dhcp"
 
   network {
+    id       = 0
     model    = "virtio"
     bridge   = "k3s"
     firewall = false
     mtu      = 1400
   }
   network {
+    id       = 1
     model    = "virtio"
     bridge   = "vmbr2"
     firewall = false
@@ -502,12 +513,14 @@ resource "proxmox_vm_qemu" "k3s-manager-worker-2" {
   ipconfig1 = "ip=dhcp"
 
   network {
+    id       = 0
     model    = "virtio"
     bridge   = "k3s"
     firewall = false
     mtu      = 1400
   }
   network {
+    id       = 1
     model    = "virtio"
     bridge   = "vmbr2"
     firewall = false
@@ -579,12 +592,14 @@ resource "proxmox_vm_qemu" "k3s-manager-worker-3" {
   ipconfig1 = "ip=dhcp"
 
   network {
+    id       = 0
     model    = "virtio"
     bridge   = "k3s"
     firewall = false
     mtu      = 1400
   }
   network {
+    id       = 1
     model    = "virtio"
     bridge   = "vmbr2"
     firewall = false
