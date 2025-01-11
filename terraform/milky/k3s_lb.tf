@@ -14,7 +14,10 @@ resource "proxmox_lxc" "k3s-lb-1" {
     storage = "local-lvm"
     size    = "8G"
   }
-
+  ssh_public_keys = <<EOF
+${var.ssh_public_key}
+${var.ssh_public_key_k3s}
+  EOF
   # The destination resource pool for the new VM
   pool = "solufit"
 
@@ -52,8 +55,11 @@ resource "proxmox_lxc" "k3s-lb-2" {
 
   clone = 9101
 
-  start = true
-
+  start           = true
+  ssh_public_keys = <<EOF
+${var.ssh_public_key}
+${var.ssh_public_key_k3s}
+  EOF
   rootfs {
     storage = "local-lvm"
     size    = "8G"
@@ -94,8 +100,11 @@ resource "proxmox_lxc" "k3s-lb-3" {
 
   clone = 9102
 
-  start = true
-
+  start           = true
+  ssh_public_keys = <<EOF
+${var.ssh_public_key}
+${var.ssh_public_key_k3s}
+  EOF
   rootfs {
     storage = "local-lvm"
     size    = "8G"
