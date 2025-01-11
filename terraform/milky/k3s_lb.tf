@@ -96,7 +96,7 @@ ${var.ssh_public_key_k3s}
 resource "proxmox_lxc" "k3s-lb-3" {
   hostname    = "solufit-k3s-lb-3"
   description = "Management Kubernetes Cluster LoadBalancer"
-  target_node = "milky-capella"
+  target_node = "milky-polaris"
 
   vmid = 12103
 
