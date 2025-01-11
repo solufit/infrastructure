@@ -3,7 +3,7 @@ resource "proxmox_lxc" "k3s-lb-1" {
   description = "Management Kubernetes Cluster LoadBalancer"
   target_node = "milky-capella"
 
-  vmid = 12001
+  vmid = 12101
 
   clone = 9100
 
@@ -54,7 +54,7 @@ resource "proxmox_lxc" "k3s-lb-2" {
 ${var.ssh_public_key}
 ${var.ssh_public_key_k3s}
   EOF
-  vmid            = 12002
+  vmid            = 12102
 
   clone = 9101
 
@@ -98,7 +98,7 @@ resource "proxmox_lxc" "k3s-lb-3" {
   description = "Management Kubernetes Cluster LoadBalancer"
   target_node = "milky-capella"
 
-  vmid = 12002
+  vmid = 12103
 
   clone = 9102
 
