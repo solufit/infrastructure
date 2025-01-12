@@ -166,7 +166,7 @@ resource "proxmox_vm_qemu" "k8s-play-worker" {
   name        = "solufit-k8s-playground-worker"
   desc        = "Playground Kubernetes cluster for Solufit"
   target_node = "milky-polaris"
-  vmid        = 31000
+  vmid        = 32000
 
   agent = 1
 
