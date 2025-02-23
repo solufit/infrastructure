@@ -1,10 +1,7 @@
 resource "proxmox_vm_qemu" "k8s-play-manager-ansible-host" {
-  depends_on = [
-    null_resource.k3s_ansible_host_cloud_config_ssh_file_provisioner
-  ]
   name        = "k8s-play-ansible-host"
   desc        = "Kubernetes playground for Solufit"
-  target_node = "milky-capella"
+  target_node = "milky-carina"
   vmid        = 30000
 
   agent = 1
@@ -52,7 +49,7 @@ resource "proxmox_vm_qemu" "k8s-play-manager-ansible-host" {
       scsi0 {
         disk {
           size    = "16G"
-          storage = "local-lvm"
+          storage = "main-storage"
         }
       }
     }
@@ -68,8 +65,26 @@ resource "proxmox_vm_qemu" "k8s-play-manager-ansible-host" {
   ssh_forward_ip  = "10.100.2.3"
   ssh_private_key = var.ssh_private_key
 
-  cicustom = "vendor=cephfs:snippets/ansible-host-cloud-config.yaml"
 
+  provisioner "remote-exec" {
+    connection {
+      type        = "ssh"
+      user        = self.ssh_user
+      private_key = self.ssh_private_key
+      host        = self.ssh_forward_ip
+    }
+    inline = [
+      "ssh-import-id gh:walkmana-25",
+      "wget 'https://fluxcd.io/install.sh'",
+      "sudo bash install.sh",
+      "rm install.sh",
+      "sudo snap install kubectl --classic",
+      "sudo snap install helm --classic",
+      "echo ${local.ssh_private_key_base64_k3s} | base64 -d > ~/.ssh/id_rsa",
+      "chmod 600 ~/.ssh/id_rsa"
+    ]
+
+  }
 
 
 }
@@ -122,19 +137,11 @@ resource "proxmox_vm_qemu" "k8s-play-controller" {
   }
 
   disks {
-    virtio {
-      virtio0 {
-        disk {
-          size    = "32G"
-          storage = "main"
-        }
-      }
-    }
     scsi {
       scsi0 {
         disk {
           size    = "32G"
-          storage = "local-lvm"
+          storage = "main-storage"
         }
       }
     }
@@ -207,19 +214,11 @@ resource "proxmox_vm_qemu" "k8s-play-worker" {
   }
 
   disks {
-    virtio {
-      virtio0 {
-        disk {
-          size    = "32G"
-          storage = "main"
-        }
-      }
-    }
     scsi {
       scsi0 {
         disk {
           size    = "32G"
-          storage = "local-lvm"
+          storage = "main-storage"
         }
       }
     }

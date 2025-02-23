@@ -11,74 +11,12 @@ locals {
   ssh_private_key_base64_k3s = sensitive("${base64encode(var.ssh_private_key_k3s)}")
 }
 
-# ansible-host custom cloud config
-resource "local_file" "k3s_ansible_host_cloud_config" {
-  content = <<EOF
-#cloud-config
-package_update: true
-package_upgrade: true
-packages:
-  - python3
-  - python3-pip
-  - python3-venv
-  - ansible-core
-  - ansible-lint
-  - ansible-mitogen
-  - git
-  - curl
 
-
-
-write_files:
-  - encoding: base64
-    content: ${local.ssh_private_key_base64_k3s}
-    path: /home/ubuntu/.ssh/id_rsa
-    permissions: '0600'
-    owner: ubuntu:ubuntu
-
-runcmd:
-  - [su, ubuntu, -c, 'ssh-import-id gh:walkmana-25']
-  - [date]
-  - [su, ubuntu, -c, 'curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl"']
-  - [su, ubuntu, -c, 'curl -s https://fluxcd.io/install.sh | sudo bash']
-  - [su, ubuntu, -c, 'curl https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3 | bash']
-
-  EOF
-
-  filename = "${path.module}/files/ansible-host-cloud-config.yaml"
-}
-
-resource "null_resource" "always_run" {
-  triggers = {
-    always_run = "${timestamp()}"
-  }
-}
-
-resource "null_resource" "k3s_ansible_host_cloud_config_ssh_file_provisioner" {
-  connection {
-    type     = "ssh"
-    host     = var.pve_ssh_node
-    user     = var.pve_ssh_user
-    password = var.pve_ssh_password
-  }
-  depends_on = [local_file.k3s_ansible_host_cloud_config]
-  provisioner "file" {
-    source      = local_file.k3s_ansible_host_cloud_config.filename
-    destination = "${var.snnipet_root}ansible-host-cloud-config.yaml"
-  }
-  lifecycle {
-    create_before_destroy = true
-    replace_triggered_by  = [null_resource.always_run]
-  }
-}
 
 resource "proxmox_vm_qemu" "k3s-manager-ansible-host" {
-  depends_on = [
-    null_resource.k3s_ansible_host_cloud_config_ssh_file_provisioner
-  ]
   name        = "k3s-ansible-host"
   desc        = "Management Kubernetes cluster for Solufit"
-  target_node = "milky-capella"
+  target_node = "milky-carina"
   vmid        = 1000
 
   agent = 1
@@ -126,7 +64,7 @@ resource "proxmox_vm_qemu" "k3s-manager-ansible-host" {
       scsi0 {
         disk {
           size    = "16G"
-          storage = "local-lvm"
+          storage = "main-storage"
         }
       }
     }
@@ -142,16 +80,33 @@ resource "proxmox_vm_qemu" "k3s-manager-ansible-host" {
   ssh_forward_ip  = "10.100.0.5"
   ssh_private_key = var.ssh_private_key
 
-  cicustom = "vendor=cephfs:snippets/ansible-host-cloud-config.yaml"
 
+  provisioner "remote-exec" {
+    connection {
+      type        = "ssh"
+      user        = self.ssh_user
+      private_key = self.ssh_private_key
+      host        = self.ssh_forward_ip
+    }
+    inline = [
+      "ssh-import-id gh:walkmana-25",
+      "wget 'https://fluxcd.io/install.sh'",
+      "sudo bash install.sh",
+      "rm install.sh",
+      "sudo snap install kubectl --classic",
+      "sudo snap install helm --classic",
+      "echo ${local.ssh_private_key_base64_k3s} | base64 -d > ~/.ssh/id_rsa",
+      "chmod 600 ~/.ssh/id_rsa"
+    ]
 
+  }
 
 }
 
 resource "proxmox_vm_qemu" "k3s-manager-controller-1" {
   name        = "solufit-k3s-controller-1"
   desc        = "Management Kubernetes cluster for Solufit"
-  target_node = "milky-capella"
+  target_node = "milky-carina"
 
   vmid = 10000
 
@@ -169,7 +124,7 @@ resource "proxmox_vm_qemu" "k3s-manager-controller-1" {
 
   cores   = 4
   sockets = 1
-  memory  = 4096
+  memory  = 8192
 
   scsihw = "virtio-scsi-pci"
 
@@ -196,19 +151,11 @@ resource "proxmox_vm_qemu" "k3s-manager-controller-1" {
   }
 
   disks {
-    virtio {
-      virtio0 {
-        disk {
-          size    = "128G"
-          storage = "main"
-        }
-      }
-    }
     scsi {
       scsi0 {
         disk {
           size    = "32G"
-          storage = "local-lvm"
+          storage = "data"
         }
       }
     }
@@ -253,7 +200,7 @@ resource "proxmox_vm_qemu" "k3s-manager-controller-2" {
 
   cores   = 4
   sockets = 1
-  memory  = 4096
+  memory  = 8192
 
   scsihw = "virtio-scsi-pci"
 
@@ -280,14 +227,6 @@ resource "proxmox_vm_qemu" "k3s-manager-controller-2" {
   }
 
   disks {
-    virtio {
-      virtio0 {
-        disk {
-          size    = "128G"
-          storage = "main"
-        }
-      }
-    }
     scsi {
       scsi0 {
         disk {
@@ -336,7 +275,7 @@ resource "proxmox_vm_qemu" "k3s-manager-controller-3" {
 
   cores   = 4
   sockets = 1
-  memory  = 4096
+  memory  = 8192
 
   scsihw = "virtio-scsi-pci"
 
@@ -364,14 +303,6 @@ resource "proxmox_vm_qemu" "k3s-manager-controller-3" {
   }
 
   disks {
-    virtio {
-      virtio0 {
-        disk {
-          size    = "128G"
-          storage = "main"
-        }
-      }
-    }
     scsi {
       scsi0 {
         disk {
@@ -406,7 +337,7 @@ EOF
 resource "proxmox_vm_qemu" "k3s-manager-worker-1" {
   name        = "solufit-k3s-worker-1"
   desc        = "Management Kubernetes cluster for Solufit"
-  target_node = "milky-capella"
+  target_node = "milky-carina"
   vmid        = 11000
 
   agent = 1
@@ -448,19 +379,11 @@ resource "proxmox_vm_qemu" "k3s-manager-worker-1" {
   }
 
   disks {
-    virtio {
-      virtio0 {
-        disk {
-          size    = "128G"
-          storage = "main"
-        }
-      }
-    }
     scsi {
       scsi0 {
         disk {
           size    = "32G"
-          storage = "local-lvm"
+          storage = "data"
         }
       }
     }
@@ -501,7 +424,7 @@ resource "proxmox_vm_qemu" "k3s-manager-worker-2" {
 
   cores   = 2
   sockets = 1
-  memory  = 2048
+  memory  = 4096
 
   scsihw = "virtio-scsi-pci"
 
@@ -528,12 +451,6 @@ resource "proxmox_vm_qemu" "k3s-manager-worker-2" {
 
   disks {
     virtio {
-      virtio0 {
-        disk {
-          size    = "128G"
-          storage = "main"
-        }
-      }
     }
     scsi {
       scsi0 {
@@ -580,7 +497,7 @@ resource "proxmox_vm_qemu" "k3s-manager-worker-3" {
 
   cores   = 2
   sockets = 1
-  memory  = 2048
+  memory  = 4096
 
   scsihw = "virtio-scsi-pci"
 
@@ -606,14 +523,6 @@ resource "proxmox_vm_qemu" "k3s-manager-worker-3" {
   }
 
   disks {
-    virtio {
-      virtio0 {
-        disk {
-          size    = "128G"
-          storage = "main"
-        }
-      }
-    }
     scsi {
       scsi0 {
         disk {
