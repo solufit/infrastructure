@@ -9,62 +9,62 @@ variable "cloudflare_provision_2" {
   type      = string
   sensitive = true
 }
-resource "proxmox_lxc" "cloudflare-tunnel-solufit-1" {
-  hostname    = "solufit-cloudflare-tunnel-1"
-  description = "cloudflare tunnel for Solufit"
-  target_node = "milky-capella"
-
-  vmid = 2003
-
-  clone = 9100
-
-  start = true
-
-  rootfs {
-    storage = "local-lvm"
-    size    = "8G"
-  }
-
-  # The destination resource pool for the new VM
-  pool = "solufit"
-
-  memory = 256
-  cores  = 1
-
-  onboot = true
-
-
-  network {
-    name     = "eth0"
-    bridge   = "evnet1"
-    firewall = false
-    ip       = "10.0.0.50/24"
-  }
-  network {
-    name     = "eth1"
-    bridge   = "vmbr2"
-    firewall = false
-    ip       = "dhcp"
-    mtu      = 1400
-  }
-
-  provisioner "remote-exec" {
-    connection {
-      type        = "ssh"
-      user        = "root"
-      private_key = var.ssh_private_key
-      host        = "10.0.0.50"
-    }
-    inline = [
-      "apt-get update && apt-get upgrade -y && apt-get install -y curl",
-      "echo '#! /bin/sh' > /tmp/cloudflare-provision.sh",
-      "echo '${var.cloudflare_provision}' >> /tmp/cloudflare-provision.sh",
-      "chmod +x /tmp/cloudflare-provision.sh",
-      "sudo /tmp/cloudflare-provision.sh"
-    ]
-
-  }
-}
+#resource "proxmox_lxc" "cloudflare-tunnel-solufit-1" {
+#  hostname    = "solufit-cloudflare-tunnel-1"
+#  description = "cloudflare tunnel for Solufit"
+#  target_node = "milky-capella"
+#
+#  vmid = 2003
+#
+#  clone = 9100
+#
+#  start = true
+#
+#  rootfs {
+#    storage = "local-lvm"
+#    size    = "8G"
+#  }
+#
+#  # The destination resource pool for the new VM
+#  pool = "solufit"
+#
+#  memory = 256
+#  cores  = 1
+#
+#  onboot = true
+#
+#
+#  network {
+#    name     = "eth0"
+#    bridge   = "evnet1"
+#    firewall = false
+#    ip       = "10.0.0.50/24"
+#  }
+#  network {
+#    name     = "eth1"
+#    bridge   = "vmbr2"
+#    firewall = false
+#    ip       = "dhcp"
+#    mtu      = 1400
+#  }
+#
+#  provisioner "remote-exec" {
+#    connection {
+#      type        = "ssh"
+#      user        = "root"
+#      private_key = var.ssh_private_key
+#      host        = "10.0.0.50"
+#    }
+#    inline = [
+#      "apt-get update && apt-get upgrade -y && apt-get install -y curl",
+#      "echo '#! /bin/sh' > /tmp/cloudflare-provision.sh",
+#      "echo '${var.cloudflare_provision}' >> /tmp/cloudflare-provision.sh",
+#      "chmod +x /tmp/cloudflare-provision.sh",
+#      "sudo /tmp/cloudflare-provision.sh"
+#    ]
+#
+#  }
+#}
 
 resource "proxmox_lxc" "cloudflare-tunnel-solufit-2" {
   hostname    = "solufit-cloudflare-tunnel-2"
