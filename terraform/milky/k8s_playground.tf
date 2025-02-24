@@ -92,7 +92,7 @@ resource "proxmox_vm_qemu" "k8s-play-manager-ansible-host" {
 resource "proxmox_vm_qemu" "k8s-play-controller" {
   name        = "solufit-k8s-playground-controller"
   desc        = "Playground Kubernetes cluster for Solufit"
-  target_node = "milky-capella"
+  target_node = "milky-polaris"
 
   vmid = 31000
 
