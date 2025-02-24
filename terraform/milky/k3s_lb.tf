@@ -212,7 +212,6 @@ resource "proxmox_lxc" "k3s-nfs" {
       "echo '${var.ssh_public_key_k3s}' >> /root/.ssh/authorized_keys",
       "chmod 700 /root/.ssh && chmod 600 /root/.ssh/authorized_keys",
       "sudo apt-get update && sudo apt-get upgrade -y",
-      "sudo reboot"
     ]
 
   }
