@@ -174,7 +174,7 @@ resource "proxmox_lxc" "k3s-nfs" {
   start = true
   rootfs {
     storage = "main-storage"
-    size    = "8G"
+    size    = "200G"
   }
 
   # The destination resource pool for the new VM
