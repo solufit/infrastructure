@@ -162,71 +162,87 @@ resource "proxmox_lxc" "k3s-lb-3" {
 
   }
 }
-resource "proxmox_lxc" "k3s-nfs" {
-  hostname     = "solufit-k3s-nfs"
-  description  = "cloudflare tunnel for Solufit"
-  target_node  = "milky-polaris"
-  unprivileged = true
+
+resource "proxmox_vm_qemu" "k3s-nfs" {
+  name        = "solufit-k3s-nfs"
+  desc        = "Management Kubernetes cluster for Solufit"
+  target_node = "milky-polaris"
 
   vmid = 12004
 
-  clone = 9102
+  agent = 1
 
-  start = true
-  rootfs {
-    storage = "main-storage"
-    size    = "8G"
-  }
-  mountpoint {
-    key     = "0"
-    slot    = 0
-    storage = "main-storage"
-    mp      = "/mnt"
-    size    = "200G"
-  }
 
-  features {
-    nesting = true
-    keyctl  = true
-    mount   = "nfs"
-  }
+  clone = "ubuntu2204-withdocker"
+
+  bootdisk = "scsi0"
+  boot     = "order=scsi0"
 
   # The destination resource pool for the new VM
   pool = "solufit"
 
-  memory = 256
-  cores  = 1
+  cores   = 2
+  sockets = 1
+  memory  = 2048
 
-  onboot = true
+  scsihw = "virtio-scsi-pci"
 
+  os_type  = "cloud-init"
+  ssh_user = "ubuntu"
+
+
+  ipconfig0 = "ip=10.100.0.9/24"
+  ipconfig1 = "ip=dhcp"
 
   network {
-    name     = "eth0"
+    id       = 0
+    model    = "virtio"
     bridge   = "k3s"
     firewall = false
-    ip       = "10.100.0.9/24"
+    mtu      = 1400
+
   }
   network {
-    name     = "eth1"
+    id       = 1
+    model    = "virtio"
     bridge   = "vmbr2"
     firewall = false
-    ip       = "dhcp"
-    mtu      = 1400
   }
 
-  provisioner "remote-exec" {
-    connection {
-      type        = "ssh"
-      user        = "root"
-      private_key = var.ssh_private_key
-      host        = "10.100.0.9"
+  disks {
+    scsi {
+      scsi0 {
+        disk {
+          size    = "10G"
+          storage = "main-storage"
+        }
+      }
     }
-    inline = [
-      "mkdir -p /root/.ssh",
-      "echo '${var.ssh_public_key_k3s}' >> /root/.ssh/authorized_keys",
-      "chmod 700 /root/.ssh && chmod 600 /root/.ssh/authorized_keys",
-      "sudo apt-get update && sudo apt-get upgrade -y",
-    ]
-
+    ide {
+      ide0 {
+        cloudinit {
+          storage = "local-lvm"
+        }
+      }
+    }
+    virtio {
+      virtio0 {
+        disk {
+          size    = "200G"
+          storage = "main-storage"
+        }
+      }
+    }
   }
+
+  ssh_forward_ip = "10.100.0.9"
+
+  sshkeys = <<EOF
+${var.ssh_public_key}
+${var.ssh_public_key_k3s}
+
+EOF
+
+
+
 }
