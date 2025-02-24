@@ -174,6 +174,13 @@ resource "proxmox_lxc" "k3s-nfs" {
   start = true
   rootfs {
     storage = "main-storage"
+    size    = "8G"
+  }
+  mountpoint {
+    key     = "0"
+    slot    = 0
+    storage = "main-storage"
+    mp      = "/mnt"
     size    = "200G"
   }
 
