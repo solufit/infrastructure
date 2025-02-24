@@ -163,9 +163,10 @@ resource "proxmox_lxc" "k3s-lb-3" {
   }
 }
 resource "proxmox_lxc" "k3s-nfs" {
-  hostname    = "solufit-k3s-nfs"
-  description = "cloudflare tunnel for Solufit"
-  target_node = "milky-polaris"
+  hostname     = "solufit-k3s-nfs"
+  description  = "cloudflare tunnel for Solufit"
+  target_node  = "milky-polaris"
+  unprivileged = false
 
   vmid = 12004
 
@@ -182,6 +183,10 @@ resource "proxmox_lxc" "k3s-nfs" {
     storage = "main-storage"
     mp      = "/mnt"
     size    = "200G"
+  }
+
+  features {
+    mount = "nfs"
   }
 
   # The destination resource pool for the new VM
