@@ -1,7 +1,6 @@
 
-
 locals {
-  ssh_private_key_base64_k8s_a = sensitive("${base64encode(var.ssh_private_keys_k3s)}")
+  ssh_private_key_base64_k8s_a = sensitive("${base64encode(var.ssh_private_key_k3s)}")
 }
 
 # 管理用ホスト
@@ -29,7 +28,7 @@ resource "proxmox_vm_qemu" "k8s-a-ansible-host" {
 
   os_type  = "cloud-init"
   ssh_user = "ubuntu"
-  sshkeys  = var.ssh_public_keys_k3s
+  sshkeys  = var.ssh_public_key_k3s
 
   # Add serial port
   serial {
@@ -73,13 +72,13 @@ resource "proxmox_vm_qemu" "k8s-a-ansible-host" {
   }
 
   ssh_forward_ip  = "10.0.10.50"
-  ssh_private_key = var.ssh_private_keys_k3s
+  ssh_private_key = var.ssh_private_key_k3s
 
   provisioner "remote-exec" {
     connection {
       type        = "ssh"
       user        = self.ssh_user
-      private_key = self.ssh_private_keys_k3s
+      private_key = self.ssh_private_key
       host        = self.ssh_forward_ip
     }
     inline = [
@@ -166,7 +165,7 @@ resource "proxmox_vm_qemu" "k8s-a-controller-1" {
 
   sshkeys = <<EOF
 ${var.ssh_public_key}
-${var.ssh_public_keys_k3s}
+${var.ssh_public_key_k3s}
 EOF
 }
 
@@ -241,6 +240,6 @@ resource "proxmox_vm_qemu" "k8s-a-worker-1" {
 
   sshkeys = <<EOF
 ${var.ssh_public_key}
-${var.ssh_public_keys_k3s}
+${var.ssh_public_key_k3s}
 EOF
 }
