@@ -76,7 +76,7 @@ resource "proxmox_vm_qemu" "k3s-manager-ansible-host" {
     ide {
       ide0 {
         cloudinit {
-          storage = "local-lvm"
+          storage = "main-storage"
         }
       }
     }
@@ -165,14 +165,14 @@ resource "proxmox_vm_qemu" "k3s-manager-controller-1" {
       scsi0 {
         disk {
           size    = "32G"
-          storage = "data"
+          storage = "main-storage"
         }
       }
     }
     ide {
       ide0 {
         cloudinit {
-          storage = "local-lvm"
+          storage = "main-storage"
         }
       }
     }
@@ -246,14 +246,14 @@ resource "proxmox_vm_qemu" "k3s-manager-controller-2" {
       scsi0 {
         disk {
           size    = "32G"
-          storage = "data"
+          storage = "main-storage"
         }
       }
     }
     ide {
       ide0 {
         cloudinit {
-          storage = "local-lvm"
+          storage = "main-storage"
         }
       }
     }
@@ -327,14 +327,14 @@ resource "proxmox_vm_qemu" "k3s-manager-controller-3" {
       scsi0 {
         disk {
           size    = "32G"
-          storage = "data"
+          storage = "main-storage"
         }
       }
     }
     ide {
       ide0 {
         cloudinit {
-          storage = "local-lvm"
+          storage = "main-storage"
         }
       }
     }
@@ -408,14 +408,14 @@ resource "proxmox_vm_qemu" "k3s-manager-worker-1" {
       scsi0 {
         disk {
           size    = "32G"
-          storage = "data"
+          storage = "main-storage"
         }
       }
     }
     ide {
       ide0 {
         cloudinit {
-          storage = "local-lvm"
+          storage = "main-storage"
         }
       }
     }
@@ -486,14 +486,14 @@ resource "proxmox_vm_qemu" "k3s-manager-worker-2" {
       scsi0 {
         disk {
           size    = "32G"
-          storage = "data"
+          storage = "main-storage"
         }
       }
     }
     ide {
       ide0 {
         cloudinit {
-          storage = "local-lvm"
+          storage = "main-storage"
         }
       }
     }
@@ -562,14 +562,14 @@ resource "proxmox_vm_qemu" "k3s-manager-worker-3" {
       scsi0 {
         disk {
           size    = "32G"
-          storage = "data"
+          storage = "main-storage"
         }
       }
     }
     ide {
       ide0 {
         cloudinit {
-          storage = "local-lvm"
+          storage = "main-storage"
         }
       }
     }
