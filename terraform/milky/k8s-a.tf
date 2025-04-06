@@ -1,4 +1,3 @@
-
 locals {
   ssh_private_key_base64_k8s_a = sensitive("${base64encode(var.ssh_private_key_k3s)}")
 }
@@ -42,7 +41,7 @@ resource "proxmox_vm_qemu" "k8s-a-ansible-host" {
   network {
     id       = 0
     model    = "virtio"
-    bridge   = "k3s"
+    bridge   = "k8sa"
     firewall = false
     mtu      = 1400
   }
@@ -132,7 +131,7 @@ resource "proxmox_vm_qemu" "k8s-a-controller-1" {
   network {
     id       = 0
     model    = "virtio"
-    bridge   = "k3s"
+    bridge   = "k8sa"
     firewall = false
     mtu      = 1400
   }
@@ -207,7 +206,7 @@ resource "proxmox_vm_qemu" "k8s-a-worker-1" {
   network {
     id       = 0
     model    = "virtio"
-    bridge   = "k3s"
+    bridge   = "k8sa"
     firewall = false
     mtu      = 1400
   }
