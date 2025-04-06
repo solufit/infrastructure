@@ -40,6 +40,11 @@ resource "proxmox_vm_qemu" "k3s-manager-ansible-host" {
   ssh_user = "ubuntu"
   sshkeys  = var.ssh_public_key
 
+  # Add serial port
+  serial {
+    id   = 0
+    type = "socket"
+  }
 
   ipconfig0 = "ip=10.100.0.5/24"
   ipconfig1 = "ip=dhcp"
@@ -131,6 +136,11 @@ resource "proxmox_vm_qemu" "k3s-manager-controller-1" {
   os_type  = "cloud-init"
   ssh_user = "ubuntu"
 
+  # Add serial port
+  serial {
+    id   = 0
+    type = "socket"
+  }
 
   ipconfig0 = "ip=10.100.0.10/24"
   ipconfig1 = "ip=dhcp"
@@ -207,6 +217,11 @@ resource "proxmox_vm_qemu" "k3s-manager-controller-2" {
   os_type  = "cloud-init"
   ssh_user = "ubuntu"
 
+  # Add serial port
+  serial {
+    id   = 0
+    type = "socket"
+  }
 
   ipconfig0 = "ip=10.100.0.11/24"
   ipconfig1 = "ip=dhcp"
@@ -282,6 +297,11 @@ resource "proxmox_vm_qemu" "k3s-manager-controller-3" {
   os_type  = "cloud-init"
   ssh_user = "ubuntu"
 
+  # Add serial port
+  serial {
+    id   = 0
+    type = "socket"
+  }
 
   ipconfig0 = "ip=10.100.0.12/24"
   ipconfig1 = "ip=dhcp"
@@ -360,6 +380,11 @@ resource "proxmox_vm_qemu" "k3s-manager-worker-1" {
   os_type  = "cloud-init"
   ssh_user = "ubuntu"
 
+  # Add serial port
+  serial {
+    id   = 0
+    type = "socket"
+  }
 
   ipconfig0 = "ip=10.100.0.20/24"
   ipconfig1 = "ip=dhcp"
@@ -431,6 +456,11 @@ resource "proxmox_vm_qemu" "k3s-manager-worker-2" {
   os_type  = "cloud-init"
   ssh_user = "ubuntu"
 
+  # Add serial port
+  serial {
+    id   = 0
+    type = "socket"
+  }
 
   ipconfig0 = "ip=10.100.0.21/24"
   ipconfig1 = "ip=dhcp"
@@ -504,6 +534,11 @@ resource "proxmox_vm_qemu" "k3s-manager-worker-3" {
   os_type  = "cloud-init"
   ssh_user = "ubuntu"
 
+  # Add serial port
+  serial {
+    id   = 0
+    type = "socket"
+  }
 
   ipconfig0 = "ip=10.100.0.22/24"
   ipconfig1 = "ip=dhcp"
